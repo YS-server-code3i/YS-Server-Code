@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="color-scheme" content="dark" />
-  <title>Settings - Cloud Studio</title>
+  <title>Settings - YS-Servece-Code</title>
   <link rel="icon" href="{{CS_STATIC_BASE}}/src/browser/media/favicon.svg" />
   <link href="{{CS_STATIC_BASE}}/src/browser/pages/design-system.css" rel="stylesheet" />
   <link href="{{CS_STATIC_BASE}}/src/browser/pages/components.css" rel="stylesheet" />
@@ -80,7 +80,10 @@
         document.querySelectorAll('.cs-settings-nav-item').forEach(i => i.classList.remove('cs-active'));
         document.querySelectorAll('.cs-settings-section').forEach(s => s.style.display = 'none');
         this.classList.add('cs-active');
-        document.getElementById(section + '-section')?.style.display === 'block';
+        const targetSection = document.getElementById(section + '-section');
+        if (targetSection) {
+          targetSection.style.display = 'block';
+        }
       });
     });
   </script>
