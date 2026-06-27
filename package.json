@@ -1,13 +1,13 @@
 {
-  "name": "code-server",
+  "name": "ys-servece-code",
   "license": "MIT",
-  "version": "0.0.0",
-  "description": "Run VS Code on a remote server.",
-  "homepage": "https://github.com/coder/code-server",
+  "version": "1.0.0",
+  "description": "YS-Servece-Code — Professional cloud development environment. Run VS Code in your browser.",
+  "homepage": "https://github.com/YS-server-code3i/YS-Server-Code",
   "bugs": {
-    "url": "https://github.com/coder/code-server/issues"
+    "url": "https://github.com/YS-server-code3i/YS-Server-Code/issues"
   },
-  "repository": "https://github.com/coder/code-server",
+  "repository": "https://github.com/YS-server-code3i/YS-Server-Code",
   "scripts": {
     "clean": "./ci/build/clean.sh",
     "build": "./ci/build/build-code-server.sh",
@@ -92,16 +92,16 @@
     "@types/node": "22.x"
   },
   "bin": {
-    "code-server": "out/node/entry.js"
+    "ys-servece-code": "out/node/entry.js"
   },
   "keywords": [
     "vscode",
     "development",
     "ide",
-    "coder",
-    "vscode-remote",
     "browser-ide",
-    "remote-development"
+    "remote-development",
+    "cloud-ide",
+    "ys-servece-code"
   ],
   "engines": {
     "node": "22"

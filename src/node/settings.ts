@@ -1,6 +1,6 @@
 import { logger } from "@coder/logger"
-import type { ParsedQs } from "qs"
 import { promises as fs } from "fs"
+import type { ParsedQs } from "qs"
 
 export type Settings = { [key: string]: Settings | string | boolean | number }
 

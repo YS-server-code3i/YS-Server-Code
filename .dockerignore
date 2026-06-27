@@ -1,3 +1,56 @@
-**
-!release-packages
-!ci
+# YS-Servece-Code — Docker ignore
+
+# Version control
+.git
+.gitignore
+.gitattributes
+.gitmodules
+.git-blame-ignore-revs
+
+# Dependencies (re-installed in container)
+node_modules
+lib/code-server-modules
+lib/code-server
+
+# Build artifacts (rebuilt in container)
+out/
+.cache/
+coverage/
+
+# Local runtime data
+.config/
+.local/share/
+
+# Test artifacts
+test/node_modules
+test/e2e/extensions/test-extension/node_modules
+
+# Release artifacts
+release/
+release-packages/
+release-standalone/
+release-npm-package/
+release-gcp/
+release-images/
+
+# Documentation (not needed at runtime)
+docs/
+*.md
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# CI (not needed at runtime)
+.github/

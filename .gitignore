@@ -22,3 +22,8 @@ test/test-results
 # Quilt's internal data.
 /.pc
 /patches/*.diff~
+
+# Bundled code-server binary (downloaded at runtime, not committed)
+lib/code-server
+lib/code-server-modules
+lib/code-server-bin
