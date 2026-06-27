@@ -1,5 +1,5 @@
 /**
- * Cloud Studio - Component Library
+ * YS-Servece-Code - Component Library
  * Reusable UI components with modern glassmorphism design
  */
 
@@ -202,120 +202,110 @@
   cursor: not-allowed;
 }
 
-/* Small Input */
-.cs-input-sm {
-  min-height: var(--cs-size-input-sm);
-  padding: var(--cs-space-2) var(--cs-space-3);
-  font-size: var(--cs-text-xs);
-}
-
-/* Large Input */
-.cs-input-lg {
-  min-height: var(--cs-size-input-lg);
-  padding: var(--cs-space-4) var(--cs-space-5);
-  font-size: var(--cs-text-base);
-}
-
-/* Textarea */
-.cs-textarea {
-  resize: vertical;
-  min-height: 6rem;
-}
-
-/* Input Group */
-.cs-input-group {
-  position: relative;
-  display: flex;
-  align-items: stretch;
-}
-
-.cs-input-group .cs-input {
-  border-radius: var(--cs-radius-md) 0 0 var(--cs-radius-md);
-}
-
-.cs-input-group .cs-btn {
-  border-radius: 0 var(--cs-radius-md) var(--cs-radius-md) 0;
-  margin-left: -1px;
-}
-
-/* Icon Input */
 .cs-input-with-icon {
   position: relative;
-}
-
-.cs-input-with-icon .cs-input {
-  padding-left: var(--cs-space-12);
+  display: flex;
+  align-items: center;
+  gap: var(--cs-space-2);
 }
 
 .cs-input-with-icon .cs-icon {
   position: absolute;
-  left: var(--cs-space-4);
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--cs-text-tertiary);
+  left: var(--cs-space-3);
+  color: var(--cs-text-secondary);
   pointer-events: none;
 }
 
+.cs-input-with-icon .cs-input {
+  padding-left: var(--cs-space-10);
+}
+
 /* ============================================================================
-   CARDS
+   TOGGLE & CHECKBOX
    ============================================================================ */
 
-.cs-card {
-  background: var(--cs-bg-glass);
-  backdrop-filter: var(--cs-backdrop-blur);
+.cs-toggle {
+  position: relative;
+  display: inline-flex;
+  width: 2.75rem;
+  height: 1.5rem;
+  cursor: pointer;
+}
+
+.cs-toggle input {
+  display: none;
+}
+
+.cs-toggle-slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--cs-bg-tertiary);
   border: 1px solid var(--cs-border-default);
-  border-radius: var(--cs-radius-lg);
-  padding: var(--cs-space-6);
+  border-radius: 9999px;
   transition: all var(--cs-transition-base);
 }
 
-.cs-card:hover {
-  border-color: var(--cs-border-hover);
-  transform: translateY(-2px);
-  box-shadow: var(--cs-shadow-lg);
+.cs-toggle-slider::before {
+  content: "";
+  position: absolute;
+  width: 1.25rem;
+  height: 1.25rem;
+  left: 0.125rem;
+  top: 0.0625rem;
+  background: var(--cs-text-primary);
+  border-radius: 50%;
+  transition: all var(--cs-transition-base);
 }
 
-.cs-card-elevated {
-  background: var(--cs-bg-tertiary);
-  box-shadow: var(--cs-shadow-sm);
+.cs-toggle input:checked + .cs-toggle-slider {
+  background: var(--cs-color-primary);
+  border-color: var(--cs-color-primary);
 }
 
-.cs-card-elevated:hover {
-  box-shadow: var(--cs-shadow-md);
-}
-
-.cs-card-header {
-  margin-bottom: var(--cs-space-4);
-  padding-bottom: var(--cs-space-4);
-  border-bottom: 1px solid var(--cs-border-default);
-}
-
-.cs-card-title {
-  font-size: var(--cs-text-lg);
-  font-weight: var(--cs-font-weight-semibold);
-  color: var(--cs-text-primary);
-}
-
-.cs-card-subtitle {
-  font-size: var(--cs-text-sm);
-  color: var(--cs-text-secondary);
-  margin-top: var(--cs-space-1);
-}
-
-.cs-card-body {
-  margin-bottom: var(--cs-space-4);
-}
-
-.cs-card-footer {
-  display: flex;
-  gap: var(--cs-space-3);
-  margin-top: var(--cs-space-4);
-  padding-top: var(--cs-space-4);
-  border-top: 1px solid var(--cs-border-default);
+.cs-toggle input:checked + .cs-toggle-slider::before {
+  transform: translateX(1.25rem);
 }
 
 /* ============================================================================
-   BADGES & PILLS
+   DROPDOWN & SELECT
+   ============================================================================ */
+
+.cs-select {
+  position: relative;
+  width: 100%;
+}
+
+.cs-select select {
+  appearance: none;
+  width: 100%;
+  min-height: var(--cs-size-input-md);
+  padding: var(--cs-space-3) var(--cs-space-10) var(--cs-space-3) var(--cs-space-4);
+  background: var(--cs-bg-tertiary) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2394A3B8' d='M6 9L1 4h10z'/%3E%3C/svg%3E") no-repeat right var(--cs-space-3) center;
+  background-color: var(--cs-bg-tertiary);
+  border: 1px solid var(--cs-border-default);
+  border-radius: var(--cs-radius-md);
+  color: var(--cs-text-primary);
+  font-size: var(--cs-text-sm);
+  cursor: pointer;
+  transition: all var(--cs-transition-base);
+}
+
+.cs-select select:hover:not(:disabled) {
+  border-color: var(--cs-border-hover);
+  background-color: var(--cs-bg-elevated);
+}
+
+.cs-select select:focus {
+  border-color: var(--cs-color-primary);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* ============================================================================
+   BADGES
    ============================================================================ */
 
 .cs-badge {
@@ -323,513 +313,96 @@
   align-items: center;
   gap: var(--cs-space-2);
   padding: var(--cs-space-1) var(--cs-space-3);
-  background: var(--cs-bg-tertiary);
-  border: 1px solid var(--cs-border-default);
   border-radius: var(--cs-radius-full);
   font-size: var(--cs-text-xs);
   font-weight: var(--cs-font-weight-medium);
+  background: var(--cs-bg-tertiary);
   color: var(--cs-text-secondary);
-  white-space: nowrap;
+  border: 1px solid var(--cs-border-default);
 }
 
 .cs-badge-primary {
   background: rgba(59, 130, 246, 0.15);
-  border-color: rgba(59, 130, 246, 0.3);
   color: var(--cs-color-primary-light);
+  border-color: var(--cs-color-primary);
 }
 
 .cs-badge-success {
   background: rgba(34, 197, 94, 0.15);
-  border-color: rgba(34, 197, 94, 0.3);
   color: var(--cs-color-success-light);
+  border-color: var(--cs-color-success);
 }
 
 .cs-badge-warning {
   background: rgba(245, 158, 11, 0.15);
-  border-color: rgba(245, 158, 11, 0.3);
   color: var(--cs-color-warning-light);
+  border-color: var(--cs-color-warning);
 }
 
 .cs-badge-danger {
   background: rgba(239, 68, 68, 0.15);
-  border-color: rgba(239, 68, 68, 0.3);
   color: var(--cs-color-danger-light);
+  border-color: var(--cs-color-danger);
 }
 
 /* ============================================================================
-   MODALS & DIALOGS
+   ANIMATIONS
    ============================================================================ */
 
-.cs-modal-backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: var(--cs-backdrop-blur);
-  z-index: var(--cs-z-modal-backdrop);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: cs-fade-in var(--cs-transition-base);
-}
-
-.cs-modal {
-  background: var(--cs-bg-secondary);
-  border: 1px solid var(--cs-border-default);
-  border-radius: var(--cs-radius-xl);
-  box-shadow: var(--cs-shadow-xl);
-  max-width: 90%;
-  max-height: 90vh;
-  z-index: var(--cs-z-modal);
-  animation: cs-scale-in var(--cs-transition-base);
-  display: flex;
-  flex-direction: column;
-}
-
-.cs-modal-header {
-  padding: var(--cs-space-6);
-  border-bottom: 1px solid var(--cs-border-default);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--cs-space-4);
-}
-
-.cs-modal-title {
-  font-size: var(--cs-text-xl);
-  font-weight: var(--cs-font-weight-semibold);
-  color: var(--cs-text-primary);
-  flex: 1;
-}
-
-.cs-modal-close {
-  width: 2.5rem;
-  height: 2.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: var(--cs-radius-md);
-  color: var(--cs-text-secondary);
-  transition: all var(--cs-transition-base);
-  cursor: pointer;
-}
-
-.cs-modal-close:hover {
-  background: var(--cs-bg-tertiary);
-  color: var(--cs-text-primary);
-}
-
-.cs-modal-body {
-  padding: var(--cs-space-6);
-  overflow-y: auto;
-  flex: 1;
-}
-
-.cs-modal-footer {
-  padding: var(--cs-space-6);
-  border-top: 1px solid var(--cs-border-default);
-  display: flex;
-  gap: var(--cs-space-3);
-  justify-content: flex-end;
-}
-
-/* ============================================================================
-   DROPDOWNS & MENUS
-   ============================================================================ */
-
-.cs-dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-.cs-dropdown-menu {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  margin-top: var(--cs-space-2);
-  background: var(--cs-bg-secondary);
-  border: 1px solid var(--cs-border-default);
-  border-radius: var(--cs-radius-lg);
-  box-shadow: var(--cs-shadow-lg);
-  z-index: var(--cs-z-dropdown);
-  min-width: 12rem;
-  overflow: hidden;
-  animation: cs-scale-in var(--cs-transition-base);
-  transform-origin: top left;
-}
-
-.cs-dropdown-item {
-  padding: var(--cs-space-3) var(--cs-space-4);
-  color: var(--cs-text-primary);
-  cursor: pointer;
-  transition: all var(--cs-transition-fast);
-  display: flex;
-  align-items: center;
-  gap: var(--cs-space-3);
-  font-size: var(--cs-text-sm);
-  white-space: nowrap;
-}
-
-.cs-dropdown-item:hover {
-  background: var(--cs-bg-tertiary);
-  color: var(--cs-color-primary-light);
-}
-
-.cs-dropdown-item:active {
-  background: var(--cs-bg-quaternary);
-}
-
-.cs-dropdown-item.cs-dropdown-divider {
-  padding: 0;
-  margin: var(--cs-space-2) 0;
-  height: 1px;
-  background: var(--cs-border-default);
-  cursor: default;
-}
-
-.cs-dropdown-item.cs-dropdown-divider:hover {
-  background: var(--cs-border-default);
-}
-
-.cs-dropdown-item.cs-disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.cs-dropdown-item.cs-disabled:hover {
-  background: transparent;
-}
-
-/* ============================================================================
-   TOOLTIPS
-   ============================================================================ */
-
-.cs-tooltip-container {
-  position: relative;
-  display: inline-block;
-}
-
-.cs-tooltip {
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%) translateY(-var(--cs-space-3));
-  background: var(--cs-bg-secondary);
-  color: var(--cs-text-primary);
-  padding: var(--cs-space-2) var(--cs-space-3);
-  border-radius: var(--cs-radius-md);
-  font-size: var(--cs-text-xs);
-  white-space: nowrap;
-  pointer-events: none;
-  z-index: var(--cs-z-tooltip);
-  border: 1px solid var(--cs-border-default);
-  box-shadow: var(--cs-shadow-md);
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity var(--cs-transition-fast), visibility var(--cs-transition-fast);
-}
-
-.cs-tooltip-container:hover .cs-tooltip {
-  opacity: 1;
-  visibility: visible;
-}
-
-.cs-tooltip::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  border: 5px solid transparent;
-  border-top-color: var(--cs-bg-secondary);
-}
-
-/* ============================================================================
-   SPINNERS & LOADERS
-   ============================================================================ */
-
-.cs-spinner {
-  width: 2rem;
-  height: 2rem;
-  border: 2px solid var(--cs-border-active);
-  border-top-color: var(--cs-color-primary);
-  border-radius: 50%;
-  animation: cs-spin 1s linear infinite;
-}
-
-.cs-spinner-sm {
-  width: 1.25rem;
-  height: 1.25rem;
-  border-width: 2px;
-}
-
-.cs-spinner-lg {
-  width: 3rem;
-  height: 3rem;
-  border-width: 3px;
-}
-
-.cs-skeleton {
-  background: linear-gradient(
-    90deg,
-    var(--cs-bg-tertiary) 25%,
-    var(--cs-bg-elevated) 50%,
-    var(--cs-bg-tertiary) 75%
-  );
-  background-size: 200% 100%;
-  animation: loading 2s infinite;
-}
-
-@keyframes loading {
-  0% {
-    background-position: 200% 0;
+@keyframes cs-spin {
+  to {
+    transform: rotate(360deg);
   }
+}
+
+@keyframes cs-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes cs-scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes cs-slide-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cs-slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes cs-bounce {
+  0%,
   100% {
-    background-position: -200% 0;
+    transform: translateY(0);
   }
-}
-
-/* ============================================================================
-   ALERTS & NOTIFICATIONS
-   ============================================================================ */
-
-.cs-alert {
-  padding: var(--cs-space-4);
-  border-radius: var(--cs-radius-lg);
-  border-left: 4px solid;
-  display: flex;
-  gap: var(--cs-space-3);
-  align-items: flex-start;
-}
-
-.cs-alert-info {
-  background: rgba(59, 130, 246, 0.1);
-  border-left-color: var(--cs-color-primary);
-  color: var(--cs-text-primary);
-}
-
-.cs-alert-success {
-  background: rgba(34, 197, 94, 0.1);
-  border-left-color: var(--cs-color-success);
-  color: var(--cs-text-primary);
-}
-
-.cs-alert-warning {
-  background: rgba(245, 158, 11, 0.1);
-  border-left-color: var(--cs-color-warning);
-  color: var(--cs-text-primary);
-}
-
-.cs-alert-danger {
-  background: rgba(239, 68, 68, 0.1);
-  border-left-color: var(--cs-color-danger);
-  color: var(--cs-text-primary);
-}
-
-.cs-alert-icon {
-  flex-shrink: 0;
-  width: 1.5rem;
-  height: 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.cs-alert-content {
-  flex: 1;
-}
-
-.cs-alert-title {
-  font-weight: var(--cs-font-weight-semibold);
-  margin-bottom: var(--cs-space-1);
-}
-
-.cs-alert-message {
-  font-size: var(--cs-text-sm);
-  color: var(--cs-text-secondary);
-}
-
-/* ============================================================================
-   PROGRESS BARS
-   ============================================================================ */
-
-.cs-progress {
-  width: 100%;
-  height: 0.5rem;
-  background: var(--cs-bg-tertiary);
-  border-radius: var(--cs-radius-full);
-  overflow: hidden;
-  border: 1px solid var(--cs-border-default);
-}
-
-.cs-progress-bar {
-  height: 100%;
-  background: linear-gradient(90deg, var(--cs-color-primary), var(--cs-color-accent));
-  transition: width var(--cs-transition-base);
-  border-radius: var(--cs-radius-full);
-}
-
-.cs-progress-indeterminate .cs-progress-bar {
-  animation: cs-pulse var(--cs-transition-slow);
-}
-
-/* ============================================================================
-   TOGGLE & SWITCHES
-   ============================================================================ */
-
-.cs-toggle {
-  position: relative;
-  display: inline-block;
-  width: 3rem;
-  height: 1.5rem;
-}
-
-.cs-toggle input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.cs-toggle-slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: var(--cs-bg-tertiary);
-  transition: var(--cs-transition-base);
-  border-radius: var(--cs-radius-full);
-  border: 1px solid var(--cs-border-default);
-}
-
-.cs-toggle-slider:before {
-  position: absolute;
-  content: "";
-  height: 1.25rem;
-  width: 1.25rem;
-  left: 0.125rem;
-  bottom: 0.0625rem;
-  background-color: white;
-  transition: var(--cs-transition-base);
-  border-radius: 50%;
-}
-
-.cs-toggle input:checked + .cs-toggle-slider {
-  background-color: var(--cs-color-primary);
-  border-color: var(--cs-color-primary-dark);
-}
-
-.cs-toggle input:checked + .cs-toggle-slider:before {
-  transform: translateX(1.5rem);
-}
-
-.cs-toggle input:focus-visible + .cs-toggle-slider {
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
-}
-
-/* ============================================================================
-   TABS
-   ============================================================================ */
-
-.cs-tabs {
-  display: flex;
-  border-bottom: 1px solid var(--cs-border-default);
-  gap: var(--cs-space-1);
-}
-
-.cs-tab {
-  padding: var(--cs-space-3) var(--cs-space-4);
-  color: var(--cs-text-secondary);
-  cursor: pointer;
-  transition: all var(--cs-transition-base);
-  border-bottom: 2px solid transparent;
-  position: relative;
-  white-space: nowrap;
-}
-
-.cs-tab:hover {
-  color: var(--cs-text-primary);
-  background: var(--cs-bg-tertiary);
-}
-
-.cs-tab.cs-active {
-  color: var(--cs-color-primary);
-  border-bottom-color: var(--cs-color-primary);
-}
-
-.cs-tab-content {
-  display: none;
-}
-
-.cs-tab-content.cs-active {
-  display: block;
-  animation: cs-fade-in var(--cs-transition-base);
-}
-
-/* ============================================================================
-   LIST & MENU ITEMS
-   ============================================================================ */
-
-.cs-menu {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.cs-menu-item {
-  padding: 0;
-  margin: 0;
-}
-
-.cs-menu-link {
-  display: flex;
-  align-items: center;
-  gap: var(--cs-space-3);
-  padding: var(--cs-space-3) var(--cs-space-4);
-  color: var(--cs-text-secondary);
-  text-decoration: none;
-  transition: all var(--cs-transition-base);
-  cursor: pointer;
-  border-left: 3px solid transparent;
-  white-space: nowrap;
-}
-
-.cs-menu-link:hover {
-  color: var(--cs-text-primary);
-  background: var(--cs-bg-tertiary);
-  border-left-color: var(--cs-color-primary);
-}
-
-.cs-menu-link.cs-active {
-  color: var(--cs-color-primary);
-  background: var(--cs-bg-tertiary);
-  border-left-color: var(--cs-color-primary);
-  font-weight: var(--cs-font-weight-medium);
-}
-
-.cs-menu-link.cs-disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  pointer-events: none;
-}
-
-/* ============================================================================
-   DIVIDERS
-   ============================================================================ */
-
-.cs-divider {
-  height: 1px;
-  background: var(--cs-border-default);
-  margin: var(--cs-space-4) 0;
-}
-
-.cs-divider-vertical {
-  width: 1px;
-  height: auto;
-  background: var(--cs-border-default);
-  display: inline-block;
-  margin: 0 var(--cs-space-4);
+  50% {
+    transform: translateY(-5px);
+  }
 }

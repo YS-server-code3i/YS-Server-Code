@@ -1,5 +1,5 @@
 /**
- * Cloud Studio - Design System
+ * YS-Servece-Code - Design System
  * Modern glassmorphism dark UI with professional animations
  */
 
@@ -198,271 +198,30 @@ select {
   border: none;
   padding: 0;
   margin: 0;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
 }
 
-button {
-  cursor: pointer;
-  user-select: none;
-}
-
-input,
-textarea {
-  user-select: text;
-}
-
-/* ============================================================================
-   SCROLLBAR STYLES
-   ============================================================================ */
-
+/* Scrollbar styling */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: var(--cs-bg-secondary);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--cs-border-active);
-  border-radius: var(--cs-radius-lg);
-  transition: background-color var(--cs-transition-base);
+  background: var(--cs-border-default);
+  border-radius: var(--cs-radius-full);
+  transition: background var(--cs-transition-base);
 }
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--cs-border-hover);
 }
 
-/* ============================================================================
-   UTILITY CLASSES
-   ============================================================================ */
-
-.cs-flex {
-  display: flex;
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--cs-border-default) var(--cs-bg-secondary);
 }
-
-.cs-flex-col {
-  display: flex;
-  flex-direction: column;
-}
-
-.cs-flex-center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.cs-flex-between {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.cs-grid {
-  display: grid;
-}
-
-.cs-hidden {
-  display: none !important;
-}
-
-.cs-sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
-}
-
-.cs-no-select {
-  user-select: none;
-  -webkit-user-select: none;
-}
-
-.cs-truncate {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.cs-line-clamp-2 {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-/* ============================================================================
-   FOCUS STYLES
-   ============================================================================ */
-
-:focus-visible {
-  outline: 2px solid var(--cs-color-primary);
-  outline-offset: 2px;
-}
-
-button:focus-visible,
-input:focus-visible,
-textarea:focus-visible,
-select:focus-visible,
-a:focus-visible {
-  outline: 2px solid var(--cs-color-primary);
-  outline-offset: 2px;
-}
-
-/* ============================================================================
-   ANIMATIONS
-   ============================================================================ */
-
-@keyframes cs-fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes cs-fade-out {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-}
-
-@keyframes cs-slide-in-right {
-  from {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-@keyframes cs-slide-out-right {
-  from {
-    transform: translateX(0);
-    opacity: 1;
-  }
-  to {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-}
-
-@keyframes cs-slide-in-left {
-  from {
-    transform: translateX(-100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-@keyframes cs-slide-out-left {
-  from {
-    transform: translateX(0);
-    opacity: 1;
-  }
-  to {
-    transform: translateX(-100%);
-    opacity: 0;
-  }
-}
-
-@keyframes cs-slide-in-up {
-  from {
-    transform: translateY(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-@keyframes cs-slide-out-down {
-  from {
-    transform: translateY(0);
-    opacity: 1;
-  }
-  to {
-    transform: translateY(100%);
-    opacity: 0;
-  }
-}
-
-@keyframes cs-scale-in {
-  from {
-    transform: scale(0.95);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-@keyframes cs-scale-out {
-  from {
-    transform: scale(1);
-    opacity: 1;
-  }
-  to {
-    transform: scale(0.95);
-    opacity: 0;
-  }
-}
-
-@keyframes cs-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes cs-pulse {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
-}
-
-@keyframes cs-bounce {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-0.5rem);
-  }
-}
-
-/* ============================================================================
-   RESPONSIVE BREAKPOINTS
-   ============================================================================ */
-
-/* Mobile First */
-/* sm: 640px */
-/* md: 768px */
-/* lg: 1024px */
-/* xl: 1280px */
-/* 2xl: 1536px */
