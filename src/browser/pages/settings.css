@@ -1,0 +1,222 @@
+/**
+ * Cloud Studio - Settings Page Styles
+ * Modern settings interface with grouped options
+ */
+
+.cs-settings {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  gap: 0;
+  overflow: hidden;
+  background: var(--cs-bg-primary);
+}
+
+/* Settings sidebar */
+.cs-settings-sidebar {
+  width: 200px;
+  background: var(--cs-bg-secondary);
+  border-right: 1px solid var(--cs-border-default);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.cs-settings-header {
+  padding: var(--cs-space-4);
+  border-bottom: 1px solid var(--cs-border-default);
+}
+
+.cs-settings-title {
+  font-size: var(--cs-text-lg);
+  font-weight: var(--cs-font-weight-semibold);
+  color: var(--cs-text-primary);
+  margin: 0;
+}
+
+.cs-settings-nav {
+  padding: var(--cs-space-2) 0;
+}
+
+.cs-settings-nav-item {
+  padding: var(--cs-space-3) var(--cs-space-4);
+  color: var(--cs-text-secondary);
+  cursor: pointer;
+  transition: all var(--cs-transition-base);
+  border-left: 3px solid transparent;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: var(--cs-text-sm);
+}
+
+.cs-settings-nav-item:hover {
+  color: var(--cs-text-primary);
+  background: var(--cs-bg-tertiary);
+}
+
+.cs-settings-nav-item.cs-active {
+  color: var(--cs-color-primary);
+  background: var(--cs-bg-tertiary);
+  border-left-color: var(--cs-color-primary);
+}
+
+/* Settings content */
+.cs-settings-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--cs-space-8);
+}
+
+.cs-settings-section {
+  margin-bottom: var(--cs-space-12);
+}
+
+.cs-settings-section:last-child {
+  margin-bottom: 0;
+}
+
+.cs-settings-section-header {
+  margin-bottom: var(--cs-space-6);
+  padding-bottom: var(--cs-space-4);
+  border-bottom: 2px solid var(--cs-border-default);
+}
+
+.cs-settings-section-title {
+  font-size: var(--cs-text-lg);
+  font-weight: var(--cs-font-weight-semibold);
+  color: var(--cs-text-primary);
+  margin: 0;
+}
+
+.cs-settings-section-description {
+  font-size: var(--cs-text-sm);
+  color: var(--cs-text-tertiary);
+  margin-top: var(--cs-space-2);
+}
+
+/* Settings group */
+.cs-settings-group {
+  display: grid;
+  gap: var(--cs-space-6);
+}
+
+.cs-settings-item {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--cs-space-6);
+  align-items: center;
+  padding: var(--cs-space-4);
+  background: var(--cs-bg-glass);
+  border: 1px solid var(--cs-border-default);
+  border-radius: var(--cs-radius-lg);
+  transition: all var(--cs-transition-base);
+}
+
+.cs-settings-item:hover {
+  border-color: var(--cs-border-hover);
+  background: var(--cs-bg-tertiary);
+}
+
+.cs-settings-label {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cs-space-2);
+}
+
+.cs-settings-label-title {
+  font-weight: var(--cs-font-weight-medium);
+  color: var(--cs-text-primary);
+  font-size: var(--cs-text-sm);
+}
+
+.cs-settings-label-description {
+  font-size: var(--cs-text-xs);
+  color: var(--cs-text-tertiary);
+}
+
+.cs-settings-control {
+  display: flex;
+  gap: var(--cs-space-3);
+  justify-content: flex-end;
+}
+
+/* Inline settings item */
+.cs-settings-item-inline {
+  grid-template-columns: 1fr;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Settings tabs */
+.cs-settings-tabs {
+  display: flex;
+  gap: var(--cs-space-1);
+  margin-bottom: var(--cs-space-6);
+  border-bottom: 1px solid var(--cs-border-default);
+}
+
+.cs-settings-tab {
+  padding: var(--cs-space-3) var(--cs-space-4);
+  color: var(--cs-text-secondary);
+  cursor: pointer;
+  transition: all var(--cs-transition-base);
+  border-bottom: 2px solid transparent;
+  font-size: var(--cs-text-sm);
+  font-weight: var(--cs-font-weight-medium);
+}
+
+.cs-settings-tab:hover {
+  color: var(--cs-text-primary);
+}
+
+.cs-settings-tab.cs-active {
+  color: var(--cs-color-primary);
+  border-bottom-color: var(--cs-color-primary);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .cs-settings {
+    flex-direction: column;
+  }
+
+  .cs-settings-sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--cs-border-default);
+    height: auto;
+    max-height: 12rem;
+  }
+
+  .cs-settings-nav {
+    display: flex;
+    gap: var(--cs-space-2);
+    overflow-x: auto;
+    padding: var(--cs-space-2);
+  }
+
+  .cs-settings-nav-item {
+    padding: var(--cs-space-2) var(--cs-space-3);
+    border-left: none;
+    border-bottom: 2px solid transparent;
+  }
+
+  .cs-settings-nav-item.cs-active {
+    border-left: none;
+    border-bottom-color: var(--cs-color-primary);
+  }
+
+  .cs-settings-content {
+    padding: var(--cs-space-6);
+  }
+
+  .cs-settings-item {
+    grid-template-columns: 1fr;
+  }
+
+  .cs-settings-control {
+    justify-content: flex-start;
+  }
+}
