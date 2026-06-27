@@ -1,67 +1,320 @@
-body {
-  min-height: 568px;
-  min-width: 320px;
-  overflow: auto;
+/**
+ * Cloud Studio - Login Page Styles
+ * Premium authentication screen with glassmorphism and animations
+ */
+
+.cs-login-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--cs-bg-primary);
+  position: relative;
+  overflow: hidden;
 }
 
-.login-form {
+/* Background gradient animation */
+.cs-login-bg-gradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    var(--cs-bg-primary) 0%,
+    var(--cs-bg-quaternary) 50%,
+    var(--cs-bg-primary) 100%
+  );
+  animation: cs-gradient-shift 15s ease infinite;
+  z-index: 0;
+}
+
+@keyframes cs-gradient-shift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Animated background shapes */
+.cs-login-shapes {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.cs-shape {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.1;
+  filter: blur(40px);
+}
+
+.cs-shape-1 {
+  width: 400px;
+  height: 400px;
+  background: var(--cs-color-primary);
+  top: -100px;
+  right: -100px;
+  animation: cs-float 20s ease-in-out infinite;
+}
+
+.cs-shape-2 {
+  width: 300px;
+  height: 300px;
+  background: var(--cs-color-accent);
+  bottom: -50px;
+  left: -50px;
+  animation: cs-float 25s ease-in-out infinite reverse;
+}
+
+.cs-shape-3 {
+  width: 250px;
+  height: 250px;
+  background: var(--cs-color-primary);
+  top: 50%;
+  left: 50%;
+  animation: cs-float 30s ease-in-out infinite;
+}
+
+@keyframes cs-float {
+  0%,
+  100% {
+    transform: translateY(0px) translateX(0px);
+  }
+  50% {
+    transform: translateY(20px) translateX(10px);
+  }
+}
+
+/* Login card */
+.cs-login-card {
+  position: relative;
+  z-index: 10;
+  background: var(--cs-bg-glass);
+  backdrop-filter: var(--cs-backdrop-blur-lg);
+  border: 1px solid var(--cs-border-default);
+  border-radius: var(--cs-radius-2xl);
+  padding: var(--cs-space-12);
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 80px rgba(59, 130, 246, 0.1);
+  animation: cs-scale-in 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@media (max-width: 640px) {
+  .cs-login-card {
+    max-width: calc(100% - var(--cs-space-8));
+    padding: var(--cs-space-8);
+  }
+}
+
+/* Logo */
+.cs-login-logo {
+  display: flex;
+  justify-content: center;
+  margin-bottom: var(--cs-space-8);
+  animation: cs-fade-in 600ms ease 100ms both;
+}
+
+.cs-login-logo img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.3));
+}
+
+/* Header */
+.cs-login-header {
+  text-align: center;
+  margin-bottom: var(--cs-space-8);
+  animation: cs-fade-in 600ms ease 200ms both;
+}
+
+.cs-login-title {
+  font-size: var(--cs-text-2xl);
+  font-weight: var(--cs-font-weight-bold);
+  color: var(--cs-text-primary);
+  margin: 0 0 var(--cs-space-2) 0;
+  background: linear-gradient(135deg, var(--cs-text-primary) 0%, var(--cs-color-accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.cs-login-subtitle {
+  font-size: var(--cs-text-sm);
+  color: var(--cs-text-secondary);
+  margin: 0;
+}
+
+/* Form */
+.cs-login-form {
   display: flex;
   flex-direction: column;
-  flex: 1;
+  gap: var(--cs-space-5);
+  margin-bottom: var(--cs-space-8);
+  animation: cs-fade-in 600ms ease 300ms both;
+}
+
+/* Form field */
+.cs-login-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cs-space-2);
+}
+
+.cs-login-label {
+  font-size: var(--cs-text-sm);
+  font-weight: var(--cs-font-weight-medium);
+  color: var(--cs-text-primary);
+}
+
+.cs-login-password-wrapper {
+  position: relative;
+}
+
+.cs-login-password {
+  padding-left: var(--cs-space-12);
+  font-family: var(--cs-font-mono);
+  letter-spacing: 0.1em;
+}
+
+.cs-login-password-wrapper .cs-icon {
+  position: absolute;
+  left: var(--cs-space-4);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--cs-color-primary);
+  pointer-events: none;
+}
+
+.cs-password-toggle {
+  position: absolute;
+  right: var(--cs-space-4);
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--cs-text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--cs-radius-md);
+  transition: all var(--cs-transition-base);
+}
+
+.cs-password-toggle:hover {
+  background: var(--cs-bg-tertiary);
+  color: var(--cs-color-accent);
+}
+
+/* Submit button */
+.cs-login-submit {
+  width: 100%;
+  min-height: var(--cs-size-button-lg);
+  font-size: var(--cs-text-base);
+  font-weight: var(--cs-font-weight-semibold);
+  gap: var(--cs-space-3);
+  animation: cs-fade-in 600ms ease 400ms both;
+  position: relative;
+}
+
+.cs-login-submit:disabled {
+  opacity: 1;
+  cursor: not-allowed;
+}
+
+.cs-submit-text {
+  display: inline-flex;
+}
+
+.cs-submit-loading {
+  display: inline-flex;
+  align-items: center;
   justify-content: center;
 }
 
-.login-form > .field {
+/* Error message */
+.cs-login-error {
+  padding: var(--cs-space-4);
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: var(--cs-radius-lg);
+  color: var(--cs-color-danger-light);
+  font-size: var(--cs-text-sm);
+  animation: cs-slide-in-up 300ms ease;
+}
+
+/* Features list */
+.cs-login-features {
   display: flex;
-  flex-direction: row;
-  width: 100%;
+  flex-direction: column;
+  gap: var(--cs-space-3);
+  margin-bottom: var(--cs-space-8);
+  padding-top: var(--cs-space-8);
+  border-top: 1px solid var(--cs-border-default);
+  animation: cs-fade-in 600ms ease 500ms both;
 }
 
-@media (max-width: 600px) {
-  .login-form > .field {
-    flex-direction: column;
+.cs-feature {
+  display: flex;
+  align-items: center;
+  gap: var(--cs-space-3);
+  font-size: var(--cs-text-sm);
+  color: var(--cs-text-secondary);
+}
+
+.cs-feature svg {
+  flex-shrink: 0;
+  color: var(--cs-color-accent);
+}
+
+/* Footer */
+.cs-login-footer {
+  text-align: center;
+  animation: cs-fade-in 600ms ease 600ms both;
+}
+
+.cs-login-footer-text {
+  font-size: var(--cs-text-xs);
+  color: var(--cs-text-tertiary);
+  margin: 0;
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+  .cs-login-card {
+    border-radius: var(--cs-radius-xl);
+    padding: var(--cs-space-6);
   }
-}
 
-.login-form > .error {
-  color: red;
-  margin-top: 16px;
-}
-
-.login-form > .field > .password {
-  background-color: rgb(244, 247, 252);
-  background-color: light-dark(rgb(244, 247, 252), #374151);
-  border-radius: 5px;
-  border: 1px solid #ddd;
-  border: 1px solid light-dark(#ddd, #4b5563);
-  box-sizing: border-box;
-  flex: 1;
-  padding: 16px;
-}
-
-.login-form > .field > .password::placeholder {
-  color: rgb(148 163 184);
-}
-
-.login-form > .field > .password:focus {
-  outline: 2px solid rgb(63, 131, 248);
-}
-
-.login-form > .user {
-  display: none;
-}
-
-.login-form > .field > .submit {
-  margin-left: 20px;
-}
-
-@media (max-width: 600px) {
-  .login-form > .field > .submit {
-    margin-left: 0px;
-    margin-top: 16px;
+  .cs-login-title {
+    font-size: var(--cs-text-xl);
   }
-}
 
-input {
-  -webkit-appearance: none;
+  .cs-login-logo img {
+    width: 60px;
+    height: 60px;
+  }
+
+  .cs-login-features {
+    gap: var(--cs-space-2);
+  }
+
+  .cs-feature {
+    font-size: var(--cs-text-xs);
+  }
 }
