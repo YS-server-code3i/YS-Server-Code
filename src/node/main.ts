@@ -31,8 +31,6 @@ export const shouldSpawnCliProcess = (args: UserProvidedArgs): boolean => {
  *
  * Arguments supported by Code's socket.  It can be used to perform actions from
  * the CLI in a running instance of Code (for example to open a file).
- *
- * TODO: Can we import this (and other types) directly?
  */
 export interface OpenCommandPipeArgs {
   type: "open"
@@ -220,9 +218,8 @@ export const runCodeServer = async (
         logger.error(`  X "${feature}" (unknown feature)`)
       }
     })
-    // TODO: Could be nice to add wrapping to the logger?
     logger.info(
-      "  The code-server project does not provide stability guarantees or commit to fixing bugs relating to these experimental features. When filing bug reports, please ensure that you can reproduce the bug with all experimental features turned off.",
+      "  The code-server project does not provide stability guarantees or commit to fixing bugs relating to these experimental features. When filing bug reports, please ensure that you can reprod[...]due to the experimental nature of the feature you are using.",
     )
   }
 

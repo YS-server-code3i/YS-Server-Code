@@ -87,8 +87,6 @@ export const register = async (
 
   app.router.use(/.*/, async (req, res, next) => {
     // If we're handling TLS ensure all requests are redirected to HTTPS.
-    // TODO: This does *NOT* work if you have a base path since to specify the
-    // protocol we need to specify the whole path.
     if (args.cert && !(req.connection as tls.TLSSocket).encrypted) {
       return res.redirect(`https://${req.headers.host}${req.originalUrl}`)
     }
