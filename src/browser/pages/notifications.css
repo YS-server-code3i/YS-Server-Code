@@ -1,0 +1,137 @@
+/**
+ * Cloud Studio - Notifications & Toasts
+ * Toast notifications and system alerts
+ */
+
+/* Toast container */
+.cs-toast-container {
+  position: fixed;
+  bottom: var(--cs-space-6);
+  right: var(--cs-space-6);
+  z-index: var(--cs-z-notification);
+  display: flex;
+  flex-direction: column;
+  gap: var(--cs-space-4);
+  pointer-events: none;
+}
+
+/* Toast notification */
+.cs-toast {
+  background: var(--cs-bg-secondary);
+  border: 1px solid var(--cs-border-default);
+  border-radius: var(--cs-radius-lg);
+  padding: var(--cs-space-4);
+  min-width: 300px;
+  max-width: 400px;
+  box-shadow: var(--cs-shadow-lg);
+  display: flex;
+  gap: var(--cs-space-3);
+  align-items: flex-start;
+  animation: cs-slide-in-right 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  pointer-events: auto;
+}
+
+.cs-toast.cs-exiting {
+  animation: cs-slide-out-right 200ms ease;
+}
+
+/* Toast icon */
+.cs-toast-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.cs-toast.cs-success .cs-toast-icon {
+  background: rgba(34, 197, 94, 0.15);
+  color: var(--cs-color-success-light);
+}
+
+.cs-toast.cs-error .cs-toast-icon {
+  background: rgba(239, 68, 68, 0.15);
+  color: var(--cs-color-danger-light);
+}
+
+.cs-toast.cs-warning .cs-toast-icon {
+  background: rgba(245, 158, 11, 0.15);
+  color: var(--cs-color-warning-light);
+}
+
+.cs-toast.cs-info .cs-toast-icon {
+  background: rgba(59, 130, 246, 0.15);
+  color: var(--cs-color-primary-light);
+}
+
+/* Toast content */
+.cs-toast-content {
+  flex: 1;
+}
+
+.cs-toast-title {
+  font-weight: var(--cs-font-weight-semibold);
+  color: var(--cs-text-primary);
+  margin: 0 0 var(--cs-space-1) 0;
+  font-size: var(--cs-text-sm);
+}
+
+.cs-toast-message {
+  color: var(--cs-text-secondary);
+  margin: 0;
+  font-size: var(--cs-text-sm);
+}
+
+/* Toast close button */
+.cs-toast-close {
+  width: 1.5rem;
+  height: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--cs-radius-sm);
+  color: var(--cs-text-secondary);
+  cursor: pointer;
+  transition: all var(--cs-transition-base);
+  flex-shrink: 0;
+}
+
+.cs-toast-close:hover {
+  background: var(--cs-bg-tertiary);
+  color: var(--cs-text-primary);
+}
+
+/* Toast progress bar */
+.cs-toast-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  background: var(--cs-color-primary);
+  animation: cs-toast-progress 5s linear;
+}
+
+@keyframes cs-toast-progress {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
+}
+
+/* Mobile responsive */
+@media (max-width: 480px) {
+  .cs-toast-container {
+    bottom: var(--cs-space-4);
+    right: var(--cs-space-4);
+    left: var(--cs-space-4);
+  }
+
+  .cs-toast {
+    min-width: auto;
+    max-width: 100%;
+  }
+}

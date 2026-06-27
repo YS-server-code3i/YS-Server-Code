@@ -1,0 +1,144 @@
+/**
+ * Cloud Studio - Terminal Styles
+ * Modern terminal panel with professional design
+ */
+
+/* Terminal wrapper */
+.cs-terminal {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background: var(--cs-bg-secondary);
+  overflow: hidden;
+}
+
+/* Terminal output */
+.cs-terminal-output {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--cs-space-4);
+  font-family: var(--cs-font-mono);
+  font-size: var(--cs-text-sm);
+  line-height: var(--cs-leading-relaxed);
+  color: var(--cs-text-secondary);
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* Terminal line */
+.cs-terminal-line {
+  display: flex;
+  gap: var(--cs-space-2);
+}
+
+.cs-terminal-prompt {
+  color: var(--cs-color-accent-light);
+  flex-shrink: 0;
+}
+
+.cs-terminal-text {
+  flex: 1;
+}
+
+/* Terminal input */
+.cs-terminal-input {
+  padding: var(--cs-space-3) var(--cs-space-4);
+  border-top: 1px solid var(--cs-border-default);
+  display: flex;
+  gap: var(--cs-space-2);
+  align-items: center;
+}
+
+.cs-terminal-input-prompt {
+  color: var(--cs-color-accent-light);
+  flex-shrink: 0;
+  font-family: var(--cs-font-mono);
+  font-size: var(--cs-text-sm);
+}
+
+.cs-terminal-input-field {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--cs-text-primary);
+  font-family: var(--cs-font-mono);
+  font-size: var(--cs-text-sm);
+  caret-color: var(--cs-color-primary);
+}
+
+.cs-terminal-input-field:focus {
+  outline: none;
+}
+
+.cs-terminal-input-field::placeholder {
+  color: var(--cs-text-tertiary);
+}
+
+/* Terminal tab */
+.cs-terminal-tab {
+  padding: var(--cs-space-3) var(--cs-space-4);
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--cs-text-secondary);
+  cursor: pointer;
+  transition: all var(--cs-transition-base);
+  font-size: var(--cs-text-sm);
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: var(--cs-space-2);
+}
+
+.cs-terminal-tab:hover {
+  color: var(--cs-text-primary);
+  background: var(--cs-bg-tertiary);
+}
+
+.cs-terminal-tab.cs-active {
+  color: var(--cs-color-primary);
+  border-bottom-color: var(--cs-color-primary);
+}
+
+/* Terminal status */
+.cs-terminal-status {
+  padding: var(--cs-space-2) var(--cs-space-4);
+  background: var(--cs-bg-tertiary);
+  border-top: 1px solid var(--cs-border-default);
+  font-size: var(--cs-text-xs);
+  color: var(--cs-text-tertiary);
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Output colors */
+.cs-terminal-error {
+  color: var(--cs-color-danger-light);
+}
+
+.cs-terminal-warning {
+  color: var(--cs-color-warning-light);
+}
+
+.cs-terminal-success {
+  color: var(--cs-color-success-light);
+}
+
+.cs-terminal-info {
+  color: var(--cs-color-primary-light);
+}
+
+/* Scrollbar styling for terminal */
+.cs-terminal-output::-webkit-scrollbar {
+  width: 8px;
+}
+
+.cs-terminal-output::-webkit-scrollbar-thumb {
+  background: var(--cs-border-active);
+  border-radius: var(--cs-radius-lg);
+}
+
+.cs-terminal-output::-webkit-scrollbar-thumb:hover {
+  background: var(--cs-border-hover);
+}

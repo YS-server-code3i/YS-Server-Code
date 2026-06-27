@@ -1,0 +1,193 @@
+/**
+ * Cloud Studio - About Page Styles
+ * About and information page
+ */
+
+.cs-about {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  background: var(--cs-bg-primary);
+  padding: var(--cs-space-12);
+}
+
+.cs-about-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Header section */
+.cs-about-header {
+  text-align: center;
+  margin-bottom: var(--cs-space-12);
+}
+
+.cs-about-logo {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto var(--cs-space-6);
+  background: var(--cs-bg-glass);
+  border: 1px solid var(--cs-border-default);
+  border-radius: var(--cs-radius-2xl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 40px rgba(59, 130, 246, 0.2);
+}
+
+.cs-about-logo img {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+}
+
+.cs-about-title {
+  font-size: var(--cs-text-3xl);
+  font-weight: var(--cs-font-weight-bold);
+  color: var(--cs-text-primary);
+  margin: 0 0 var(--cs-space-2) 0;
+  background: linear-gradient(135deg, var(--cs-text-primary) 0%, var(--cs-color-accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.cs-about-subtitle {
+  font-size: var(--cs-text-lg);
+  color: var(--cs-text-secondary);
+  margin: 0;
+}
+
+/* Section */
+.cs-about-section {
+  margin-bottom: var(--cs-space-8);
+  padding: var(--cs-space-6);
+  background: var(--cs-bg-glass);
+  border: 1px solid var(--cs-border-default);
+  border-radius: var(--cs-radius-lg);
+}
+
+.cs-about-section-title {
+  font-size: var(--cs-text-lg);
+  font-weight: var(--cs-font-weight-semibold);
+  color: var(--cs-text-primary);
+  margin: 0 0 var(--cs-space-4) 0;
+  display: flex;
+  align-items: center;
+  gap: var(--cs-space-2);
+}
+
+.cs-about-section-title svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: var(--cs-color-primary);
+}
+
+.cs-about-section-content {
+  color: var(--cs-text-secondary);
+  line-height: var(--cs-leading-relaxed);
+}
+
+.cs-about-section-content p {
+  margin: 0 0 var(--cs-space-3) 0;
+}
+
+.cs-about-section-content p:last-child {
+  margin-bottom: 0;
+}
+
+/* Feature list */
+.cs-about-features {
+  display: grid;
+  gap: var(--cs-space-4);
+}
+
+.cs-about-feature {
+  display: flex;
+  gap: var(--cs-space-3);
+}
+
+.cs-about-feature-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  flex-shrink: 0;
+  color: var(--cs-color-accent);
+  margin-top: 0.25rem;
+}
+
+.cs-about-feature-text {
+  flex: 1;
+}
+
+.cs-about-feature-title {
+  font-weight: var(--cs-font-weight-medium);
+  color: var(--cs-text-primary);
+  margin-bottom: var(--cs-space-1);
+}
+
+.cs-about-feature-description {
+  font-size: var(--cs-text-sm);
+  color: var(--cs-text-tertiary);
+}
+
+/* Links */
+.cs-about-links {
+  display: flex;
+  gap: var(--cs-space-4);
+  flex-wrap: wrap;
+}
+
+.cs-about-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--cs-space-2);
+  padding: var(--cs-space-3) var(--cs-space-6);
+  background: var(--cs-bg-tertiary);
+  border: 1px solid var(--cs-border-default);
+  border-radius: var(--cs-radius-md);
+  color: var(--cs-text-primary);
+  text-decoration: none;
+  transition: all var(--cs-transition-base);
+  cursor: pointer;
+}
+
+.cs-about-link:hover {
+  background: var(--cs-bg-elevated);
+  border-color: var(--cs-color-primary);
+  color: var(--cs-color-primary);
+}
+
+/* Stats */
+.cs-about-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--cs-space-6);
+  margin-top: var(--cs-space-6);
+}
+
+.cs-about-stat {
+  text-align: center;
+}
+
+.cs-about-stat-number {
+  font-size: var(--cs-text-2xl);
+  font-weight: var(--cs-font-weight-bold);
+  color: var(--cs-color-primary);
+  margin: 0 0 var(--cs-space-1) 0;
+}
+
+.cs-about-stat-label {
+  font-size: var(--cs-text-sm);
+  color: var(--cs-text-secondary);
+  margin: 0;
+}
+
+/* Footer */
+.cs-about-footer {
+  text-align: center;
+  margin-top: var(--cs-space-8);
+  padding-top: var(--cs-space-8);
+  border-top: 1px solid var(--cs-border-default);
+  color: var(--cs-text-tertiary);
+  font-size: var(--cs-text-sm);
+}
