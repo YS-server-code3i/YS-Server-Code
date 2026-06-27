@@ -8,26 +8,53 @@
     />
     <meta
       http-equiv="Content-Security-Policy"
-      content="style-src 'self'; manifest-src 'self'; img-src 'self' data:; font-src 'self' data:;"
+      content="style-src 'self'; script-src 'self' 'unsafe-inline'; manifest-src 'self'; img-src 'self' data:; font-src 'self' data:;"
     />
-    <meta name="color-scheme" content="light dark" />
-    <title>{{ERROR_TITLE}} - {{APP_NAME}}</title>
+    <meta name="color-scheme" content="dark" />
+    <title>{{ERROR_TITLE}} - Cloud Studio</title>
     <link rel="icon" href="{{CS_STATIC_BASE}}/src/browser/media/favicon-dark-support.svg" />
     <link rel="alternate icon" href="{{CS_STATIC_BASE}}/src/browser/media/favicon.ico" />
     <link rel="manifest" href="/manifest.json" crossorigin="use-credentials" />
     <link rel="apple-touch-icon" sizes="192x192" href="{{CS_STATIC_BASE}}/src/browser/media/pwa-icon-192.png" />
     <link rel="apple-touch-icon" sizes="512x512" href="{{CS_STATIC_BASE}}/src/browser/media/pwa-icon-512.png" />
+    <link href="{{CS_STATIC_BASE}}/src/browser/pages/design-system.css" rel="stylesheet" />
+    <link href="{{CS_STATIC_BASE}}/src/browser/pages/components.css" rel="stylesheet" />
     <link href="{{CS_STATIC_BASE}}/src/browser/pages/global.css" rel="stylesheet" />
     <link href="{{CS_STATIC_BASE}}/src/browser/pages/error.css" rel="stylesheet" />
     <meta id="coder-options" data-settings="{{OPTIONS}}" />
   </head>
   <body>
-    <div class="center-container">
-      <div class="error-display">
-        <h2 class="header">{{ERROR_HEADER}}</h2>
-        <div class="body">{{ERROR_BODY}}</div>
-        <div class="links">
-          <a class="link" href="{{BASE}}{{TO}}">go home</a>
+    <div class="cs-error-container">
+      <div class="cs-error-bg">
+        <div class="cs-error-shape cs-error-shape-1"></div>
+        <div class="cs-error-shape cs-error-shape-2"></div>
+      </div>
+
+      <div class="cs-error-display">
+        <div class="cs-error-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+        </div>
+
+        <h2 class="cs-error-header">{{ERROR_HEADER}}</h2>
+        <p class="cs-error-body">{{ERROR_BODY}}</p>
+
+        <div class="cs-error-links">
+          <a href="{{BASE}}{{TO}}" class="cs-error-link cs-error-link-primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M19 12H5M12 19l-7-7 7-7" />
+            </svg>
+            Go Home
+          </a>
+          <a href="javascript:history.back()" class="cs-error-link cs-error-link-secondary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+            Go Back
+          </a>
         </div>
       </div>
     </div>
