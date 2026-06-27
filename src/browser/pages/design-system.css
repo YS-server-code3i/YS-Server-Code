@@ -1,0 +1,468 @@
+/**
+ * Cloud Studio - Design System
+ * Modern glassmorphism dark UI with professional animations
+ */
+
+/* ============================================================================
+   ROOT - CSS VARIABLES & DESIGN TOKENS
+   ============================================================================ */
+
+:root {
+  /* Color Palette */
+  --cs-color-primary: #3B82F6;
+  --cs-color-primary-hover: #2563EB;
+  --cs-color-primary-active: #1D4ED8;
+  --cs-color-primary-light: #60A5FA;
+  --cs-color-primary-dark: #1E40AF;
+
+  --cs-color-accent: #06B6D4;
+  --cs-color-accent-hover: #0891B2;
+  --cs-color-accent-active: #0E7490;
+  --cs-color-accent-light: #22D3EE;
+  --cs-color-accent-dark: #06B6D4;
+
+  --cs-color-success: #22C55E;
+  --cs-color-success-hover: #16A34A;
+  --cs-color-success-light: #4ADE80;
+
+  --cs-color-warning: #F59E0B;
+  --cs-color-warning-hover: #D97706;
+  --cs-color-warning-light: #FBBF24;
+
+  --cs-color-danger: #EF4444;
+  --cs-color-danger-hover: #DC2626;
+  --cs-color-danger-light: #F87171;
+
+  /* Background Colors */
+  --cs-bg-primary: #0B1220;
+  --cs-bg-secondary: #111827;
+  --cs-bg-tertiary: #1F2937;
+  --cs-bg-quaternary: #0F172A;
+  --cs-bg-elevated: #1E293B;
+  --cs-bg-overlay: rgba(11, 18, 32, 0.95);
+  --cs-bg-glass: rgba(17, 24, 39, 0.7);
+  --cs-bg-glass-secondary: rgba(31, 41, 55, 0.5);
+
+  /* Text Colors */
+  --cs-text-primary: #F8FAFC;
+  --cs-text-secondary: #94A3B8;
+  --cs-text-tertiary: #64748B;
+  --cs-text-muted: #475569;
+  --cs-text-inverse: #0B1220;
+
+  /* Border Colors */
+  --cs-border-default: rgba(255, 255, 255, 0.08);
+  --cs-border-hover: rgba(255, 255, 255, 0.12);
+  --cs-border-active: rgba(255, 255, 255, 0.16);
+  --cs-border-subtle: rgba(255, 255, 255, 0.04);
+
+  /* Shadows */
+  --cs-shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --cs-shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.4), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+  --cs-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+  --cs-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.6), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+  --cs-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.7), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
+  --cs-shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+
+  /* Glow Effects */
+  --cs-glow-primary: 0 0 20px rgba(59, 130, 246, 0.3);
+  --cs-glow-accent: 0 0 20px rgba(6, 182, 212, 0.3);
+
+  /* Spacing Scale */
+  --cs-space-0: 0;
+  --cs-space-1: 0.25rem;
+  --cs-space-2: 0.5rem;
+  --cs-space-3: 0.75rem;
+  --cs-space-4: 1rem;
+  --cs-space-5: 1.25rem;
+  --cs-space-6: 1.5rem;
+  --cs-space-8: 2rem;
+  --cs-space-10: 2.5rem;
+  --cs-space-12: 3rem;
+  --cs-space-16: 4rem;
+  --cs-space-20: 5rem;
+  --cs-space-24: 6rem;
+
+  /* Border Radius */
+  --cs-radius-none: 0;
+  --cs-radius-xs: 0.25rem;
+  --cs-radius-sm: 0.375rem;
+  --cs-radius-md: 0.5rem;
+  --cs-radius-lg: 0.75rem;
+  --cs-radius-xl: 1rem;
+  --cs-radius-2xl: 1.5rem;
+  --cs-radius-full: 9999px;
+
+  /* Typography */
+  --cs-font-primary: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --cs-font-mono: "JetBrains Mono", "Courier New", monospace;
+
+  --cs-text-xs: 0.75rem;
+  --cs-text-sm: 0.875rem;
+  --cs-text-base: 1rem;
+  --cs-text-lg: 1.125rem;
+  --cs-text-xl: 1.25rem;
+  --cs-text-2xl: 1.5rem;
+  --cs-text-3xl: 1.875rem;
+  --cs-text-4xl: 2.25rem;
+
+  --cs-font-weight-light: 300;
+  --cs-font-weight-normal: 400;
+  --cs-font-weight-medium: 500;
+  --cs-font-weight-semibold: 600;
+  --cs-font-weight-bold: 700;
+
+  /* Line Heights */
+  --cs-leading-tight: 1.25;
+  --cs-leading-snug: 1.375;
+  --cs-leading-normal: 1.5;
+  --cs-leading-relaxed: 1.625;
+  --cs-leading-loose: 2;
+
+  /* Transitions */
+  --cs-transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --cs-transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --cs-transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --cs-transition-slower: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Z-Index Scale */
+  --cs-z-hide: -1;
+  --cs-z-base: 0;
+  --cs-z-dropdown: 100;
+  --cs-z-sticky: 200;
+  --cs-z-fixed: 300;
+  --cs-z-modal-backdrop: 400;
+  --cs-z-modal: 500;
+  --cs-z-popover: 600;
+  --cs-z-tooltip: 700;
+  --cs-z-notification: 800;
+
+  /* Component Sizes */
+  --cs-size-button-sm: 2rem;
+  --cs-size-button-md: 2.5rem;
+  --cs-size-button-lg: 3rem;
+
+  --cs-size-input-sm: 2rem;
+  --cs-size-input-md: 2.5rem;
+  --cs-size-input-lg: 3rem;
+
+  --cs-width-sidebar: 16rem;
+  --cs-width-sidebar-collapsed: 3.5rem;
+  --cs-height-topbar: 3.5rem;
+  --cs-height-terminal: 12rem;
+
+  /* Backdrop Blur */
+  --cs-backdrop-blur: blur(10px);
+  --cs-backdrop-blur-lg: blur(20px);
+}
+
+/* ============================================================================
+   RESET & BASE STYLES
+   ============================================================================ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  background-color: var(--cs-bg-primary);
+  color: var(--cs-text-primary);
+  font-family: var(--cs-font-primary);
+  font-size: var(--cs-text-base);
+  line-height: var(--cs-leading-normal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+}
+
+/* Remove default input/button styles */
+input,
+button,
+textarea,
+select {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+button {
+  cursor: pointer;
+  user-select: none;
+}
+
+input,
+textarea {
+  user-select: text;
+}
+
+/* ============================================================================
+   SCROLLBAR STYLES
+   ============================================================================ */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--cs-border-active);
+  border-radius: var(--cs-radius-lg);
+  transition: background-color var(--cs-transition-base);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--cs-border-hover);
+}
+
+/* ============================================================================
+   UTILITY CLASSES
+   ============================================================================ */
+
+.cs-flex {
+  display: flex;
+}
+
+.cs-flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.cs-flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cs-flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cs-grid {
+  display: grid;
+}
+
+.cs-hidden {
+  display: none !important;
+}
+
+.cs-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.cs-no-select {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.cs-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cs-line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ============================================================================
+   FOCUS STYLES
+   ============================================================================ */
+
+:focus-visible {
+  outline: 2px solid var(--cs-color-primary);
+  outline-offset: 2px;
+}
+
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--cs-color-primary);
+  outline-offset: 2px;
+}
+
+/* ============================================================================
+   ANIMATIONS
+   ============================================================================ */
+
+@keyframes cs-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes cs-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes cs-slide-in-right {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes cs-slide-out-right {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+@keyframes cs-slide-in-left {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes cs-slide-out-left {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+}
+
+@keyframes cs-slide-in-up {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes cs-slide-out-down {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+@keyframes cs-scale-in {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes cs-scale-out {
+  from {
+    transform: scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+}
+
+@keyframes cs-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes cs-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes cs-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-0.5rem);
+  }
+}
+
+/* ============================================================================
+   RESPONSIVE BREAKPOINTS
+   ============================================================================ */
+
+/* Mobile First */
+/* sm: 640px */
+/* md: 768px */
+/* lg: 1024px */
+/* xl: 1280px */
+/* 2xl: 1536px */
