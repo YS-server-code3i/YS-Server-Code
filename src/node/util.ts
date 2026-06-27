@@ -104,7 +104,7 @@ export const generateCertificate = async (hostname: string): Promise<{ cert: str
           selfSigned: true,
           commonName: hostname,
           config: `
-[req]
+[ req ]
 req_extensions = v3_req
 
 [ v3_req ]
@@ -499,7 +499,6 @@ export function isNodeJSErrnoException(error: unknown): error is NodeJS.ErrnoExc
   return error !== undefined && (error as NodeJS.ErrnoException).code !== undefined
 }
 
-// TODO: Replace with proper templating system.
 export const escapeJSON = (value: cp.Serializable) => JSON.stringify(value).replace(/"/g, "&quot;")
 
 /**
