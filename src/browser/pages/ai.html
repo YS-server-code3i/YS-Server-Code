@@ -1,0 +1,532 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+  <meta name="color-scheme" content="dark" />
+  <title>YS-Servece-Code — AI Assistant</title>
+  <link rel="icon" href="/src/browser/media/favicon.svg" />
+  <link rel="stylesheet" href="/ai.css" />
+</head>
+<body>
+  <div id="app" class="ai-app">
+    <!-- Sidebar -->
+    <aside class="ai-sidebar" id="sidebar">
+      <div class="ai-sidebar-header">
+        <div class="ai-logo">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span class="ai-logo-text">YS AI</span>
+        </div>
+        <button class="ai-sidebar-toggle" id="sidebarToggle" title="Toggle sidebar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+      </div>
+
+      <button class="ai-new-chat" id="newChatBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+        </svg>
+        New Conversation
+      </button>
+
+      <div class="ai-section-label">Operations</div>
+      <nav class="ai-op-nav" id="opNav">
+        <button class="ai-op-btn active" data-op="chat">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+          Chat
+        </button>
+        <button class="ai-op-btn" data-op="generate">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+          </svg>
+          Generate
+        </button>
+        <button class="ai-op-btn" data-op="refactor">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M23 4v6h-6"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+          </svg>
+          Refactor
+        </button>
+        <button class="ai-op-btn" data-op="review">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+          </svg>
+          Review
+        </button>
+        <button class="ai-op-btn" data-op="test">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+          </svg>
+          Tests
+        </button>
+        <button class="ai-op-btn" data-op="fix">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+          </svg>
+          Fix Bug
+        </button>
+        <button class="ai-op-btn" data-op="debug">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+          Debug
+        </button>
+        <button class="ai-op-btn" data-op="explain">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+          </svg>
+          Explain
+        </button>
+        <button class="ai-op-btn" data-op="document">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>
+          </svg>
+          Document
+        </button>
+        <button class="ai-op-btn" data-op="commit">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="4"/><line x1="1.05" y1="12" x2="7" y2="12"/><line x1="17.01" y1="12" x2="22.96" y2="12"/>
+          </svg>
+          Commit Msg
+        </button>
+        <button class="ai-op-btn" data-op="plan">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>
+          </svg>
+          Plan
+        </button>
+      </nav>
+
+      <div class="ai-section-label" style="margin-top:auto">Provider</div>
+      <div class="ai-provider-status" id="providerStatus">
+        <span class="ai-status-dot" id="statusDot"></span>
+        <span id="providerName">Checking...</span>
+      </div>
+    </aside>
+
+    <!-- Main chat area -->
+    <main class="ai-main">
+      <header class="ai-header">
+        <button class="ai-mobile-menu" id="mobileMenu">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+        <div class="ai-header-title">
+          <span id="currentOpLabel">AI Chat</span>
+        </div>
+        <div class="ai-header-actions">
+          <select class="ai-select" id="languageSelect" title="Language hint">
+            <option value="">Auto</option>
+            <option value="typescript">TypeScript</option>
+            <option value="javascript">JavaScript</option>
+            <option value="python">Python</option>
+            <option value="rust">Rust</option>
+            <option value="go">Go</option>
+            <option value="java">Java</option>
+            <option value="csharp">C#</option>
+            <option value="cpp">C++</option>
+            <option value="sql">SQL</option>
+            <option value="shell">Shell</option>
+          </select>
+          <button class="ai-icon-btn" id="clearBtn" title="Clear conversation">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <div class="ai-messages" id="messages">
+        <div class="ai-welcome">
+          <div class="ai-welcome-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+              <path d="M2 17l10 5 10-5"/>
+              <path d="M2 12l10 5 10-5"/>
+            </svg>
+          </div>
+          <h2>YS-Servece-Code AI</h2>
+          <p>Your intelligent coding assistant. Ask me to generate, review, refactor, debug, or explain code.</p>
+          <div class="ai-suggestions">
+            <button class="ai-suggestion" data-text="Generate a TypeScript Express REST API with CRUD operations for a users table">Generate REST API</button>
+            <button class="ai-suggestion" data-text="Review this code for bugs and security issues">Review my code</button>
+            <button class="ai-suggestion" data-text="Explain how async/await works in JavaScript">Explain async/await</button>
+            <button class="ai-suggestion" data-text="Write unit tests for a user authentication service">Write unit tests</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ai-input-area">
+        <div class="ai-input-container">
+          <textarea
+            class="ai-textarea"
+            id="userInput"
+            placeholder="Ask anything about your code..."
+            rows="1"
+          ></textarea>
+          <div class="ai-input-actions">
+            <button class="ai-stream-toggle" id="streamToggle" title="Toggle streaming">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+              </svg>
+              <span>Stream</span>
+            </button>
+            <button class="ai-send-btn" id="sendBtn" title="Send (Ctrl+Enter)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="ai-input-hint">Ctrl+Enter to send · Shift+Enter for newline</div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const API_BASE = window.location.origin;
+    let currentOp = 'chat';
+    let isStreaming = true;
+    let abortController = null;
+    let isLoading = false;
+
+    const messagesEl = document.getElementById('messages');
+    const userInput = document.getElementById('userInput');
+    const sendBtn = document.getElementById('sendBtn');
+    const statusDot = document.getElementById('statusDot');
+    const providerName = document.getElementById('providerName');
+    const currentOpLabel = document.getElementById('currentOpLabel');
+    const streamToggle = document.getElementById('streamToggle');
+    const languageSelect = document.getElementById('languageSelect');
+
+    const OP_LABELS = {
+      chat: 'AI Chat', generate: 'Generate Code', refactor: 'Refactor',
+      review: 'Code Review', test: 'Generate Tests', fix: 'Fix Bug',
+      debug: 'Debug', explain: 'Explain Code', document: 'Document',
+      commit: 'Commit Message', plan: 'Plan Implementation'
+    };
+
+    // Auto-resize textarea
+    userInput.addEventListener('input', () => {
+      userInput.style.height = 'auto';
+      userInput.style.height = Math.min(userInput.scrollHeight, 200) + 'px';
+    });
+
+    // Keyboard shortcuts
+    userInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+
+    sendBtn.addEventListener('click', () => {
+      if (isLoading && abortController) {
+        abortController.abort();
+        setLoading(false);
+        return;
+      }
+      sendMessage();
+    });
+
+    // Operation nav
+    document.getElementById('opNav').addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-op]');
+      if (!btn) return;
+      document.querySelectorAll('.ai-op-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentOp = btn.dataset.op;
+      currentOpLabel.textContent = OP_LABELS[currentOp] || currentOp;
+    });
+
+    // Stream toggle
+    streamToggle.addEventListener('click', () => {
+      isStreaming = !isStreaming;
+      streamToggle.classList.toggle('active', isStreaming);
+      streamToggle.title = isStreaming ? 'Streaming ON' : 'Streaming OFF';
+    });
+    streamToggle.classList.add('active');
+
+    // Clear conversation
+    document.getElementById('clearBtn').addEventListener('click', async () => {
+      try {
+        await fetch(`${API_BASE}/api/ai/history`, { method: 'DELETE' });
+      } catch {}
+      messagesEl.innerHTML = '';
+      showWelcome();
+    });
+
+    // New chat
+    document.getElementById('newChatBtn').addEventListener('click', () => {
+      document.getElementById('clearBtn').click();
+      currentOp = 'chat';
+      document.querySelectorAll('.ai-op-btn').forEach(b => b.classList.remove('active'));
+      document.querySelector('[data-op="chat"]').classList.add('active');
+      currentOpLabel.textContent = 'AI Chat';
+    });
+
+    // Suggestion chips
+    messagesEl.addEventListener('click', (e) => {
+      const btn = e.target.closest('.ai-suggestion');
+      if (!btn) return;
+      userInput.value = btn.dataset.text;
+      userInput.dispatchEvent(new Event('input'));
+      sendMessage();
+    });
+
+    // Mobile menu
+    document.getElementById('mobileMenu').addEventListener('click', () => {
+      document.getElementById('sidebar').classList.toggle('open');
+    });
+
+    async function sendMessage() {
+      const query = userInput.value.trim();
+      if (!query || isLoading) return;
+
+      removeWelcome();
+      appendMessage('user', query);
+      userInput.value = '';
+      userInput.style.height = 'auto';
+
+      setLoading(true);
+      const assistantEl = appendMessage('assistant', '', true);
+
+      const body = {
+        query,
+        operation: currentOp,
+        language: languageSelect.value || undefined,
+      };
+
+      try {
+        if (isStreaming) {
+          await streamResponse(body, assistantEl);
+        } else {
+          await fetchResponse(body, assistantEl);
+        }
+      } catch (err) {
+        if (err.name !== 'AbortError') {
+          setMessageContent(assistantEl, `Error: ${err.message}`);
+        }
+      } finally {
+        setLoading(false);
+        renderCodeBlocks(assistantEl);
+      }
+    }
+
+    async function streamResponse(body, el) {
+      abortController = new AbortController();
+      const resp = await fetch(`${API_BASE}/api/ai/stream`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+        signal: abortController.signal,
+      });
+
+      if (!resp.ok) {
+        const err = await resp.json().catch(() => ({ error: resp.statusText }));
+        throw new Error(err.error || resp.statusText);
+      }
+
+      const reader = resp.body.getReader();
+      const decoder = new TextDecoder();
+      let accumulated = '';
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        const chunk = decoder.decode(value);
+        const lines = chunk.split('\n');
+
+        for (const line of lines) {
+          if (!line.startsWith('data: ')) continue;
+          const data = line.slice(6);
+          if (data === '[DONE]') return;
+          try {
+            const json = JSON.parse(data);
+            if (json.error) throw new Error(json.error);
+            if (json.text) {
+              accumulated += json.text;
+              setMessageContent(el, accumulated, true);
+            }
+          } catch (parseErr) {
+            if (parseErr.message !== 'abort') {}
+          }
+        }
+      }
+    }
+
+    async function fetchResponse(body, el) {
+      abortController = new AbortController();
+      const resp = await fetch(`${API_BASE}/api/ai/chat`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+        signal: abortController.signal,
+      });
+
+      const data = await resp.json();
+      if (!data.success && data.error) throw new Error(data.error);
+      setMessageContent(el, data.output || data.error || 'No response');
+    }
+
+    function appendMessage(role, content, loading = false) {
+      const wrapper = document.createElement('div');
+      wrapper.className = `ai-message ai-message-${role}`;
+
+      const avatar = document.createElement('div');
+      avatar.className = 'ai-message-avatar';
+      avatar.innerHTML = role === 'user'
+        ? '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>'
+        : '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>';
+
+      const bubble = document.createElement('div');
+      bubble.className = 'ai-message-bubble';
+
+      if (loading) {
+        bubble.innerHTML = '<span class="ai-typing"><span></span><span></span><span></span></span>';
+      } else {
+        bubble.textContent = content;
+      }
+
+      wrapper.appendChild(avatar);
+      wrapper.appendChild(bubble);
+      messagesEl.appendChild(wrapper);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+
+      return bubble;
+    }
+
+    function setMessageContent(el, content, isStreaming = false) {
+      if (isStreaming) {
+        el.innerHTML = formatMarkdown(content) + '<span class="ai-cursor">▋</span>';
+      } else {
+        el.innerHTML = formatMarkdown(content);
+      }
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+
+    function formatMarkdown(text) {
+      // Code blocks
+      text = text.replace(/```(\w*)\n?([\s\S]*?)```/g, (_, lang, code) => {
+        const escaped = code.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        return `<div class="ai-code-block"><div class="ai-code-header"><span>${lang || 'code'}</span><button class="ai-copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="lang-${lang}">${escaped}</code></pre></div>`;
+      });
+
+      // Inline code
+      text = text.replace(/`([^`]+)`/g, '<code class="ai-inline-code">$1</code>');
+
+      // Bold
+      text = text.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+
+      // Italic
+      text = text.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+
+      // Headers
+      text = text.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+      text = text.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+      text = text.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+
+      // Unordered lists
+      text = text.replace(/^\s*[-*+] (.+)$/gm, '<li>$1</li>');
+      text = text.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
+
+      // Line breaks
+      text = text.replace(/\n\n/g, '</p><p>');
+      text = `<p>${text}</p>`;
+      text = text.replace(/<p><\/p>/g, '');
+
+      return text;
+    }
+
+    function renderCodeBlocks(el) {
+      // Remove streaming cursor when done
+      const cursor = el.querySelector('.ai-cursor');
+      if (cursor) cursor.remove();
+    }
+
+    function copyCode(btn) {
+      const pre = btn.closest('.ai-code-block').querySelector('pre');
+      navigator.clipboard.writeText(pre.textContent).then(() => {
+        btn.textContent = 'Copied!';
+        setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+      });
+    }
+
+    function setLoading(loading) {
+      isLoading = loading;
+      if (loading) {
+        sendBtn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="6" width="12" height="12"/></svg>';
+        sendBtn.title = 'Stop';
+        sendBtn.classList.add('loading');
+      } else {
+        sendBtn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>';
+        sendBtn.title = 'Send (Ctrl+Enter)';
+        sendBtn.classList.remove('loading');
+        abortController = null;
+      }
+    }
+
+    function removeWelcome() {
+      const welcome = messagesEl.querySelector('.ai-welcome');
+      if (welcome) welcome.remove();
+    }
+
+    function showWelcome() {
+      messagesEl.innerHTML = `
+        <div class="ai-welcome">
+          <div class="ai-welcome-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+              <path d="M2 17l10 5 10-5"/>
+              <path d="M2 12l10 5 10-5"/>
+            </svg>
+          </div>
+          <h2>YS-Servece-Code AI</h2>
+          <p>Your intelligent coding assistant. Ask me to generate, review, refactor, debug, or explain code.</p>
+          <div class="ai-suggestions">
+            <button class="ai-suggestion" data-text="Generate a TypeScript Express REST API with CRUD operations for a users table">Generate REST API</button>
+            <button class="ai-suggestion" data-text="Review this code for bugs and security issues">Review my code</button>
+            <button class="ai-suggestion" data-text="Explain how async/await works in JavaScript">Explain async/await</button>
+            <button class="ai-suggestion" data-text="Write unit tests for a user authentication service">Write unit tests</button>
+          </div>
+        </div>`;
+    }
+
+    // Load provider status
+    async function loadStatus() {
+      try {
+        const resp = await fetch(`${API_BASE}/api/ai/status`);
+        const data = await resp.json();
+        if (data.status === 'ready') {
+          statusDot.className = 'ai-status-dot active';
+          providerName.textContent = `${data.provider?.name || 'Unknown'} (${data.provider?.model || ''})`;
+        } else if (data.status === 'no-provider') {
+          statusDot.className = 'ai-status-dot warning';
+          providerName.textContent = 'No provider';
+        } else {
+          statusDot.className = 'ai-status-dot error';
+          providerName.textContent = data.reason || 'Unavailable';
+        }
+      } catch {
+        statusDot.className = 'ai-status-dot error';
+        providerName.textContent = 'Server error';
+      }
+    }
+
+    loadStatus();
+    setInterval(loadStatus, 30000);
+  </script>
+</body>
+</html>

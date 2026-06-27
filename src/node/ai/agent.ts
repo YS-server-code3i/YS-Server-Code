@@ -4,15 +4,24 @@
  */
 
 import type { Logger } from "@coder/logger"
-import AIProviderFactory, { type AIProvider, type AIResponse } from "./providers"
+import AIProviderFactory from "./providers"
+import { OpenAIProvider } from "./providers/openai"
+import { AnthropicProvider } from "./providers/anthropic"
+import { GeminiProvider } from "./providers/gemini"
+import { OpenRouterProvider } from "./providers/openrouter"
+import { OpenAICompatibleProvider } from "./providers/openai-compatible"
 import ContextManager from "./context"
-import { execSync } from "child_process"
+import type { AIStreamResponse } from "./providers"
 
 export interface AgentRequest {
   query: string
   files?: string[]
   operation: AgentOperation
   language?: string
+  systemPrompt?: string
+  maxTokens?: number
+  temperature?: number
+  jsonMode?: boolean
 }
 
 export type AgentOperation =
@@ -25,143 +34,254 @@ export type AgentOperation =
   | "fix"
   | "explain"
   | "commit"
+  | "chat"
+  | "plan"
+  | "search"
+  | "rename"
+
+export interface FileChange {
+  path: string
+  content: string
+  action: "create" | "update" | "delete"
+}
 
 export interface AgentResult {
   success: boolean
   operation: AgentOperation
   output: string
-  files: Array<{ path: string; content: string; action: "create" | "update" | "delete" }>
+  files: FileChange[]
   confidence: number
   executedCommands: string[]
+  provider?: string
+  model?: string
+  usage?: {
+    promptTokens: number
+    completionTokens: number
+    totalTokens: number
+  }
+}
+
+type ProviderInstance =
+  | OpenAIProvider
+  | AnthropicProvider
+  | GeminiProvider
+  | OpenRouterProvider
+  | OpenAICompatibleProvider
+
+const SYSTEM_PROMPTS: Record<AgentOperation, string> = {
+  generate:
+    "You are an expert software engineer. Generate clean, production-ready code. " +
+    "When returning file changes, include a JSON block at the end in this exact format:\n" +
+    '```json\n{"files":[{"path":"...","content":"...","action":"create"}]}\n```',
+  refactor:
+    "You are an expert code refactorer. Improve code quality, readability, performance, and maintainability. " +
+    "Explain what you changed and why. Include file changes as JSON at the end.",
+  review:
+    "You are an expert code reviewer. Analyze code for bugs, security vulnerabilities, performance issues, and best practices. " +
+    "Provide specific, actionable feedback with line references where possible.",
+  test:
+    "You are an expert test engineer. Generate comprehensive unit and integration tests with good coverage. " +
+    "Include edge cases, error paths, and happy paths. Include test file changes as JSON at the end.",
+  debug:
+    "You are an expert debugger. Identify root causes of bugs systematically. " +
+    "Explain the problem, propose a fix, and include code changes as JSON at the end.",
+  document:
+    "You are an expert technical writer. Generate clear, comprehensive documentation. " +
+    "Include JSDoc/TSDoc comments, README sections, and usage examples.",
+  fix:
+    "You are an expert bug fixer. Identify root causes and implement robust, minimal fixes. " +
+    "Explain what was wrong and include fixed code as JSON at the end.",
+  explain:
+    "You are an expert code explainer. Provide clear, detailed explanations suitable for the asker's level. " +
+    "Break down complex concepts into digestible parts with examples.",
+  commit:
+    "You are an expert git user. Generate concise, meaningful commit messages following conventional commits format. " +
+    "Format: <type>(<scope>): <description>\\n\\n<body>\\n\\n<footer>",
+  chat:
+    "You are YS-Servece-Code's AI assistant — an expert software engineer and technical advisor. " +
+    "Answer questions concisely and accurately. Provide code examples when helpful.",
+  plan:
+    "You are an expert software architect. Create detailed implementation plans with clear steps, " +
+    "file structure, dependencies, and potential issues to watch for.",
+  search:
+    "You are an expert code searcher. Find relevant code, patterns, and usages across the repository. " +
+    "Provide file paths and relevant snippets.",
+  rename:
+    "You are an expert code refactorer specializing in symbol renaming. " +
+    "Identify all usages and provide a complete rename plan with all affected files.",
 }
 
 export class AIAgent {
   private providerFactory: AIProviderFactory
   private contextManager: ContextManager
+  private providerInstances: Map<string, ProviderInstance> = new Map()
+  private readonly retryAttempts = 3
+  private readonly retryDelayMs = 1000
 
   constructor(
     private logger: Logger,
-    workspaceDir: string
+    workspaceDir: string,
   ) {
     this.providerFactory = new AIProviderFactory(logger)
     this.contextManager = new ContextManager(logger, workspaceDir)
+    this.buildProviderInstances()
   }
 
-  /**
-   * Initialize the agent
-   */
+  private buildProviderInstances(): void {
+    if (process.env.OPENAI_API_KEY) {
+      this.providerInstances.set(
+        "openai",
+        new OpenAIProvider(process.env.OPENAI_API_KEY, process.env.OPENAI_MODEL || "gpt-4-turbo-preview"),
+      )
+    }
+    if (process.env.ANTHROPIC_API_KEY) {
+      this.providerInstances.set(
+        "anthropic",
+        new AnthropicProvider(process.env.ANTHROPIC_API_KEY, process.env.ANTHROPIC_MODEL || "claude-3-5-sonnet-20241022"),
+      )
+    }
+    if (process.env.GOOGLE_GENERATIVE_AI_API_KEY) {
+      this.providerInstances.set(
+        "gemini",
+        new GeminiProvider(process.env.GOOGLE_GENERATIVE_AI_API_KEY, process.env.GEMINI_MODEL || "gemini-1.5-pro"),
+      )
+    }
+    if (process.env.OPEN_ROUTER_API_KEY) {
+      this.providerInstances.set(
+        "openrouter",
+        new OpenRouterProvider(
+          process.env.OPEN_ROUTER_API_KEY,
+          process.env.OPENROUTER_MODEL || "anthropic/claude-3.5-sonnet",
+        ),
+      )
+    }
+    if (process.env.OPENAI_LIKE_API_KEY && process.env.OPENAI_LIKE_BASE_URL) {
+      this.providerInstances.set(
+        "openai-like",
+        new OpenAICompatibleProvider(
+          process.env.OPENAI_LIKE_API_KEY,
+          process.env.OPENAI_LIKE_BASE_URL,
+          process.env.OPENAI_LIKE_MODEL || "gpt-3.5-turbo",
+        ),
+      )
+    }
+  }
+
   public async initialize(): Promise<void> {
     if (!this.providerFactory.hasProvider()) {
-      this.logger.warn("AI Agent: No LLM providers available")
+      this.logger.warn("AI Agent: No LLM providers configured")
       return
     }
-
     await this.contextManager.indexRepository()
     this.logger.info("AI Agent initialized")
   }
 
-  /**
-   * Process a request through the AI agent
-   */
   public async process(request: AgentRequest): Promise<AgentResult> {
-    const provider = this.providerFactory.getActiveProvider()
-
-    if (!provider) {
+    if (this.providerInstances.size === 0) {
       return {
         success: false,
         operation: request.operation,
-        output: "No AI provider configured",
+        output:
+          "No AI provider configured. Set one of: OPENAI_API_KEY, ANTHROPIC_API_KEY, GOOGLE_GENERATIVE_AI_API_KEY, OPEN_ROUTER_API_KEY",
         files: [],
         confidence: 0,
         executedCommands: [],
       }
     }
 
-    try {
-      const prompt = this.buildPrompt(request, provider)
-      const response = await this.callProvider(provider, prompt)
+    const fullPrompt = this.buildFullPrompt(request)
+    let lastError: Error | null = null
 
-      const result: AgentResult = {
-        success: true,
-        operation: request.operation,
-        output: response.content,
-        files: this.parseFileChanges(response.content, request.operation),
-        confidence: 0.85,
-        executedCommands: [],
+    for (const providerKey of this.getProviderOrder()) {
+      const instance = this.providerInstances.get(providerKey)
+      if (!instance) continue
+
+      for (let attempt = 0; attempt < this.retryAttempts; attempt++) {
+        try {
+          const response = await instance.call(fullPrompt)
+          const files = this.parseFileChanges(response.content)
+
+          this.contextManager.addMessage("user", request.query)
+          this.contextManager.addMessage("assistant", response.content)
+
+          return {
+            success: true,
+            operation: request.operation,
+            output: response.content,
+            files,
+            confidence: 0.9,
+            executedCommands: [],
+            provider: response.provider,
+            model: response.model,
+            usage: response.usage,
+          }
+        } catch (err) {
+          lastError = err instanceof Error ? err : new Error(String(err))
+          this.logger.warn(`AI call failed (${providerKey} attempt ${attempt + 1}): ${lastError.message}`)
+          if (attempt < this.retryAttempts - 1) {
+            await this.sleep(this.retryDelayMs * (attempt + 1))
+          }
+        }
       }
+      this.logger.warn(`Falling back from ${providerKey} to next provider`)
+    }
 
-      // Add message to history
-      this.contextManager.addMessage("user", request.query)
-      this.contextManager.addMessage("assistant", response.content)
-
-      return result
-    } catch (error) {
-      this.logger.error(`Agent error: ${error}`)
-      return {
-        success: false,
-        operation: request.operation,
-        output: `Error: ${error}`,
-        files: [],
-        confidence: 0,
-        executedCommands: [],
-      }
+    return {
+      success: false,
+      operation: request.operation,
+      output: `All providers failed. Last error: ${lastError?.message ?? "unknown"}`,
+      files: [],
+      confidence: 0,
+      executedCommands: [],
     }
   }
 
-  /**
-   * Get available capabilities
-   */
+  public async stream(request: AgentRequest): Promise<AIStreamResponse> {
+    if (this.providerInstances.size === 0) {
+      throw new Error("No AI providers configured")
+    }
+
+    for (const providerKey of this.getProviderOrder()) {
+      const instance = this.providerInstances.get(providerKey)
+      if (!instance) continue
+      try {
+        const fullPrompt = this.buildFullPrompt(request)
+        const streamResponse = await instance.stream(fullPrompt)
+        this.contextManager.addMessage("user", request.query)
+        return streamResponse
+      } catch (err) {
+        this.logger.warn(`Stream failed for ${providerKey}: ${err}`)
+      }
+    }
+
+    throw new Error("No AI providers available for streaming")
+  }
+
   public getCapabilities(): AgentOperation[] {
-    return [
-      "generate",
-      "refactor",
-      "review",
-      "test",
-      "debug",
-      "document",
-      "fix",
-      "explain",
-      "commit",
-    ]
+    return ["generate", "refactor", "review", "test", "debug", "document", "fix", "explain", "commit", "chat", "plan", "search", "rename"]
   }
 
-  /**
-   * Get active provider info
-   */
   public getProviderInfo(): { name: string; model: string } | null {
     const provider = this.providerFactory.getActiveProvider()
     if (!provider) return null
     return { name: provider.name, model: provider.model }
   }
 
-  /**
-   * Switch AI provider
-   */
   public switchProvider(name: string): boolean {
     return this.providerFactory.switchProvider(name)
   }
 
-  /**
-   * List available providers
-   */
   public listProviders(): string[] {
     return this.providerFactory.getAvailableProviders()
   }
 
-  /**
-   * Index the repository
-   */
   public async indexRepository(): Promise<void> {
     await this.contextManager.indexRepository()
   }
 
-  /**
-   * Get repository statistics
-   */
   public getRepositoryStats(): Record<string, unknown> {
     const index = this.contextManager.getIndex()
     if (!index) return {}
-
     return {
       totalFiles: index.files.length,
       totalSize: index.totalSize,
@@ -169,95 +289,87 @@ export class AIAgent {
     }
   }
 
-  private buildPrompt(request: AgentRequest, provider: AIProvider): string {
-    const context = this.contextManager.getContext(request.query, 5)
-    const history = this.contextManager.getHistory(5)
+  public clearHistory(): void {
+    this.contextManager.clearHistory()
+  }
 
-    let prompt = ""
-
-    // System instructions based on operation
-    switch (request.operation) {
-      case "generate":
-        prompt += "You are an expert code generator. "
-        break
-      case "refactor":
-        prompt += "You are an expert code refactorer. Improve code quality, performance, and maintainability. "
-        break
-      case "review":
-        prompt += "You are an expert code reviewer. Analyze code for bugs, security issues, and best practices. "
-        break
-      case "test":
-        prompt += "You are an expert test engineer. Generate comprehensive unit and integration tests. "
-        break
-      case "debug":
-        prompt += "You are an expert debugger. Identify and fix bugs efficiently. "
-        break
-      case "document":
-        prompt += "You are an expert technical writer. Generate clear, comprehensive documentation. "
-        break
-      case "fix":
-        prompt += "You are an expert bug fixer. Identify root causes and implement robust fixes. "
-        break
-      case "explain":
-        prompt += "You are an expert code explainer. Provide clear, detailed explanations. "
-        break
-      case "commit":
-        prompt += "You are an expert git developer. Generate meaningful commit messages. "
-        break
+  private getProviderOrder(): string[] {
+    const configured = this.providerFactory.getAvailableProviders()
+    const all = Array.from(this.providerInstances.keys())
+    const ordered = configured.filter((p) => all.includes(p))
+    for (const p of all) {
+      if (!ordered.includes(p)) ordered.push(p)
     }
+    return ordered
+  }
 
-    prompt += `Use ${provider.model}. Respond in valid JSON format.\n\n`
+  private buildFullPrompt(request: AgentRequest): string {
+    const systemPrompt = request.systemPrompt ?? SYSTEM_PROMPTS[request.operation]
+    const context = this.contextManager.getContext(request.query, 5)
+    const history = this.contextManager.getHistory(6)
+    const parts: string[] = []
+
+    parts.push(`SYSTEM: ${systemPrompt}`)
 
     if (context) {
-      prompt += `Repository Context:\n${context}\n\n`
+      parts.push(`\nREPOSITORY CONTEXT:\n${context}`)
     }
 
     if (history.length > 0) {
-      prompt += "Conversation History:\n"
+      parts.push("\nCONVERSATION HISTORY:")
       for (const msg of history) {
-        prompt += `${msg.role.toUpperCase()}: ${msg.content}\n`
+        parts.push(`${msg.role.toUpperCase()}: ${msg.content}`)
       }
-      prompt += "\n"
     }
 
-    prompt += `Request: ${request.query}\n`
+    if (request.language) {
+      parts.push(`\nLANGUAGE: ${request.language}`)
+    }
 
     if (request.files && request.files.length > 0) {
-      prompt += `Files: ${request.files.join(", ")}\n`
+      parts.push(`\nFILES IN SCOPE: ${request.files.join(", ")}`)
     }
 
-    prompt += `Language: ${request.language || "auto-detect"}\n`
-
-    return prompt
-  }
-
-  private async callProvider(
-    provider: AIProvider,
-    prompt: string
-  ): Promise<AIResponse> {
-    // Placeholder - will be expanded per provider
-    return {
-      content: "AI response placeholder",
-      model: provider.model,
-      provider: provider.name,
+    if (request.jsonMode) {
+      parts.push("\nIMPORTANT: Respond with valid JSON only.")
     }
+
+    parts.push(`\nUSER: ${request.query}`)
+    return parts.join("\n")
   }
 
-  private parseFileChanges(
-    content: string,
-    operation: AgentOperation
-  ): Array<{ path: string; content: string; action: "create" | "update" | "delete" }> {
-    // Parse AI response for file changes (JSON format)
+  private parseFileChanges(content: string): FileChange[] {
+    const jsonBlockRegex = /```(?:json)?\s*(\{[\s\S]*?\})\s*```/g
+    let match: RegExpExecArray | null
+
+    while ((match = jsonBlockRegex.exec(content)) !== null) {
+      try {
+        const parsed = JSON.parse(match[1]) as { files?: unknown }
+        if (parsed.files && Array.isArray(parsed.files)) {
+          return (parsed.files as FileChange[]).filter(
+            (f) => f.path && f.action && ["create", "update", "delete"].includes(f.action),
+          )
+        }
+      } catch {
+        // not valid JSON block, continue
+      }
+    }
+
+    // Try bare JSON
     try {
-      const json = JSON.parse(content)
-      if (json.files && Array.isArray(json.files)) {
-        return json.files
+      const parsed = JSON.parse(content) as { files?: unknown }
+      if (parsed.files && Array.isArray(parsed.files)) {
+        return parsed.files as FileChange[]
       }
     } catch {
-      // Not JSON, try regex parsing
+      // not JSON
     }
 
     return []
+  }
+
+  private sleep(ms: number): Promise<void> {
+    return new Promise((resolve) => setTimeout(resolve, ms))
   }
 }
 

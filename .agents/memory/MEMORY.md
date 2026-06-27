@@ -1,0 +1,2 @@
+- [Companion server architecture](companion-arch.md) — AI/GitHub/Files/DB APIs run on a separate Express server (port 3001), not in code-server's TypeScript wrapper
+- [path-to-regexp v8 wildcards](path-to-regexp-v8.md) — wildcard routes must use query params or `{/*name}` syntax; bare `*` and `:param(*)` both throw at runtime

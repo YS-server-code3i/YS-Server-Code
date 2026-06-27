@@ -63,13 +63,61 @@ if [ ! -f "$BINARY" ]; then
 fi
 
 # ---------------------------------------------------------------------------
-# Start
+# Compile TypeScript companion server (if source exists and node_modules ready)
+# ---------------------------------------------------------------------------
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+COMPANION_OUT="$SCRIPT_DIR/out/node/companion.js"
+
+if [ -f "$SCRIPT_DIR/src/node/companion.ts" ] && [ -d "$SCRIPT_DIR/node_modules" ]; then
+  if [ ! -f "$COMPANION_OUT" ] || \
+     [ "$SCRIPT_DIR/src/node/companion.ts" -nt "$COMPANION_OUT" ] || \
+     [ "$SCRIPT_DIR/src/node/routes/ai.ts" -nt "$COMPANION_OUT" ]; then
+    echo "[start.sh] Compiling TypeScript companion server..."
+    cd "$SCRIPT_DIR"
+    if ./node_modules/.bin/tsc --noEmit false 2>/dev/null; then
+      echo "[start.sh] TypeScript compilation complete"
+    else
+      echo "[start.sh] WARNING: TypeScript compilation had errors, attempting anyway..." >&2
+      ./node_modules/.bin/tsc --noEmit false --skipLibCheck 2>/dev/null || true
+    fi
+  fi
+fi
+
+# ---------------------------------------------------------------------------
+# Start companion API server (background, port 3001)
+# ---------------------------------------------------------------------------
+COMPANION_PORT="${COMPANION_PORT:-3001}"
+if [ -f "$COMPANION_OUT" ] && command -v node >/dev/null 2>&1; then
+  echo "[start.sh] Starting companion API server on port ${COMPANION_PORT}..."
+  COMPANION_PORT="$COMPANION_PORT" \
+  WORKSPACE_DIR="${WORKSPACE_DIR:-/home/runner/workspace}" \
+    node "$COMPANION_OUT" &
+  COMPANION_PID=$!
+  echo "[start.sh] Companion PID: $COMPANION_PID"
+
+  # Give companion server a moment to start
+  sleep 1
+
+  # Verify it started
+  if kill -0 "$COMPANION_PID" 2>/dev/null; then
+    echo "[start.sh] Companion server running"
+  else
+    echo "[start.sh] WARNING: Companion server may have failed to start" >&2
+  fi
+else
+  echo "[start.sh] Companion server not available (compiled output not found), skipping"
+fi
+
+# ---------------------------------------------------------------------------
+# Start code-server
 # ---------------------------------------------------------------------------
 # Bind address: always 0.0.0.0 so the proxy/load-balancer can reach us.
 # Port: prefer $PORT (Railway/Heroku auto-inject) then fall back to 5000 (Replit).
 BIND_PORT="${PORT:-5000}"
 
 echo "[start.sh] Starting YS-Servece-Code on 0.0.0.0:${BIND_PORT} (auth=${AUTH:-none}) ..."
+echo "[start.sh] AI API accessible via code-server port proxy at: /proxy/${COMPANION_PORT}/api/ai/"
+echo "[start.sh] AI Chat UI accessible via code-server port proxy at: /proxy/${COMPANION_PORT}/"
 
 exec "$BINARY" \
   --bind-addr "0.0.0.0:${BIND_PORT}" \

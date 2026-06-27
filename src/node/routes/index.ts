@@ -24,6 +24,11 @@ import * as logout from "./logout"
 import * as pathProxy from "./pathProxy"
 import * as update from "./update"
 import * as vscode from "./vscode"
+import aiRouter, { initializeAIRoutes } from "./ai"
+import githubRouter from "./github"
+import filesRouter from "./files"
+import databaseRouter from "./database"
+import { AIAgent } from "../ai/agent"
 
 /**
  * Register all routes and middleware.
@@ -161,6 +166,16 @@ export const register = async (
   }
 
   app.router.use("/update", update.router)
+
+  // AI, GitHub, File Manager, Database APIs
+  const workspaceDir = args._ && args._.length > 0 ? String(args._[0]) : process.env.WORKSPACE_DIR || "/home/runner/workspace"
+  const aiAgent = new AIAgent(logger, workspaceDir)
+  aiAgent.initialize().catch((err) => logger.warn(`AI Agent init warning: ${err}`))
+  initializeAIRoutes(aiAgent)
+  app.router.use("/api/ai", aiRouter)
+  app.router.use("/api/github", githubRouter)
+  app.router.use("/api/files", filesRouter)
+  app.router.use("/api/db", databaseRouter)
 
   // For historic reasons we also load at /vscode because the root was replaced
   // by a plugin in v1 of Coder.  The plugin system (which was for internal use

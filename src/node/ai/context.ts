@@ -33,7 +33,6 @@ export class ContextManager {
   private conversationHistory: ConversationMessage[] = []
   private fileCache: Map<string, FileContext> = new Map()
   private maxHistoryMessages = 50
-  private maxContextSize = 100000 // chars
 
   constructor(
     private logger: Logger,
