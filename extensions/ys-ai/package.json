@@ -1,0 +1,220 @@
+{
+  "name": "ys-ai",
+  "displayName": "YS AI",
+  "description": "AI coding assistant with streaming chat, file editing, git, GitHub, Railway, and PostgreSQL — powered by YS-Servece-Code",
+  "version": "1.0.0",
+  "publisher": "ys-servece-code",
+  "private": true,
+  "engines": {
+    "vscode": ">=1.90.0"
+  },
+  "categories": [
+    "AI",
+    "Other"
+  ],
+  "icon": "media/logo.png",
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "ys-ai-container",
+          "title": "YS AI",
+          "icon": "media/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "ys-ai-container": [
+        {
+          "type": "webview",
+          "id": "ysAI.chat",
+          "name": "AI Chat",
+          "contextualTitle": "YS AI Chat"
+        },
+        {
+          "id": "ysAI.files",
+          "name": "File Explorer",
+          "contextualTitle": "YS AI Files"
+        },
+        {
+          "id": "ysAI.git",
+          "name": "Git",
+          "contextualTitle": "YS AI Git"
+        },
+        {
+          "id": "ysAI.database",
+          "name": "Database",
+          "contextualTitle": "YS AI Database"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "ysAI.openChat",
+        "title": "YS AI: Open Chat",
+        "icon": "$(comment-discussion)"
+      },
+      {
+        "command": "ysAI.newConversation",
+        "title": "YS AI: New Conversation",
+        "icon": "$(add)"
+      },
+      {
+        "command": "ysAI.explainFile",
+        "title": "YS AI: Explain Current File"
+      },
+      {
+        "command": "ysAI.reviewFile",
+        "title": "YS AI: Review Current File"
+      },
+      {
+        "command": "ysAI.fixSelection",
+        "title": "YS AI: Fix Selected Code"
+      },
+      {
+        "command": "ysAI.generateTests",
+        "title": "YS AI: Generate Tests for File"
+      },
+      {
+        "command": "ysAI.generateCommitMessage",
+        "title": "YS AI: Generate Commit Message"
+      },
+      {
+        "command": "ysAI.reindex",
+        "title": "YS AI: Re-index Repository"
+      },
+      {
+        "command": "ysAI.gitRefresh",
+        "title": "Refresh",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "ysAI.dbRefresh",
+        "title": "Refresh",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "ysAI.dbRunQuery",
+        "title": "Run Query",
+        "icon": "$(run)"
+      },
+      {
+        "command": "ysAI.filesRefresh",
+        "title": "Refresh",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "ysAI.applyChange",
+        "title": "YS AI: Apply Change",
+        "icon": "$(check)"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "ysAI.fixSelection",
+          "group": "ysAI@1",
+          "when": "editorHasSelection"
+        },
+        {
+          "command": "ysAI.explainFile",
+          "group": "ysAI@2"
+        },
+        {
+          "command": "ysAI.reviewFile",
+          "group": "ysAI@3"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "ysAI.newConversation",
+          "when": "view == ysAI.chat",
+          "group": "navigation"
+        },
+        {
+          "command": "ysAI.gitRefresh",
+          "when": "view == ysAI.git",
+          "group": "navigation"
+        },
+        {
+          "command": "ysAI.dbRefresh",
+          "when": "view == ysAI.database",
+          "group": "navigation"
+        },
+        {
+          "command": "ysAI.filesRefresh",
+          "when": "view == ysAI.files",
+          "group": "navigation"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "YS AI",
+      "properties": {
+        "ysAI.companionPort": {
+          "type": "number",
+          "default": 3001,
+          "description": "Port where the YS AI companion server is running"
+        },
+        "ysAI.streaming": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable streaming responses"
+        },
+        "ysAI.defaultOperation": {
+          "type": "string",
+          "default": "chat",
+          "enum": [
+            "chat",
+            "generate",
+            "review",
+            "fix",
+            "explain",
+            "debug",
+            "refactor",
+            "test",
+            "document"
+          ],
+          "description": "Default AI operation"
+        },
+        "ysAI.showDiffBeforeApply": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show diff preview before applying AI-suggested file changes"
+        },
+        "ysAI.autoReindex": {
+          "type": "boolean",
+          "default": false,
+          "description": "Automatically re-index repository on file changes"
+        }
+      }
+    },
+    "keybindings": [
+      {
+        "command": "ysAI.openChat",
+        "key": "ctrl+shift+a",
+        "mac": "cmd+shift+a"
+      },
+      {
+        "command": "ysAI.fixSelection",
+        "key": "ctrl+shift+f",
+        "mac": "cmd+shift+f",
+        "when": "editorHasSelection"
+      }
+    ]
+  },
+  "scripts": {
+    "compile": "tsc -p tsconfig.json",
+    "watch": "tsc -watch -p tsconfig.json",
+    "lint": "tsc --noEmit -p tsconfig.json"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.43",
+    "@types/vscode": "^1.90.0",
+    "typescript": "^5.9.2"
+  }
+}

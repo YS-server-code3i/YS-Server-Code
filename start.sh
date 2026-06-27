@@ -109,6 +109,45 @@ else
 fi
 
 # ---------------------------------------------------------------------------
+# Build & install YS AI VS Code extension
+# ---------------------------------------------------------------------------
+EXT_SRC="$SCRIPT_DIR/extensions/ys-ai"
+EXT_INSTALL="${XDG_DATA_HOME:-$HOME}/.local/share/code-server/extensions/ys-ai"
+EXT_OUT="$EXT_SRC/out/extension.js"
+
+if [ -d "$EXT_SRC/src" ]; then
+  # Install extension npm deps if missing
+  if [ ! -d "$EXT_SRC/node_modules/@types/vscode" ]; then
+    echo "[start.sh] Installing YS AI extension dev dependencies..."
+    cd "$EXT_SRC"
+    npm install --ignore-scripts --silent 2>/dev/null || true
+    cd "$SCRIPT_DIR"
+  fi
+
+  # Compile extension TS if source is newer than output
+  if [ ! -f "$EXT_OUT" ] || [ "$EXT_SRC/src/extension.ts" -nt "$EXT_OUT" ] || [ "$EXT_SRC/src/providers/ChatViewProvider.ts" -nt "$EXT_OUT" ]; then
+    echo "[start.sh] Compiling YS AI extension TypeScript..."
+    cd "$EXT_SRC"
+    if ./node_modules/.bin/tsc 2>/dev/null; then
+      echo "[start.sh] Extension compiled successfully"
+    else
+      echo "[start.sh] WARNING: Extension compilation had errors" >&2
+      ./node_modules/.bin/tsc --skipLibCheck 2>/dev/null || true
+    fi
+    cd "$SCRIPT_DIR"
+  fi
+
+  # Copy compiled extension into code-server extensions directory
+  if [ -f "$EXT_OUT" ]; then
+    mkdir -p "$EXT_INSTALL"
+    cp -r "$EXT_SRC/out" "$EXT_INSTALL/"
+    cp "$EXT_SRC/package.json" "$EXT_INSTALL/"
+    cp -r "$EXT_SRC/media" "$EXT_INSTALL/"
+    echo "[start.sh] YS AI extension installed to $EXT_INSTALL"
+  fi
+fi
+
+# ---------------------------------------------------------------------------
 # Start code-server
 # ---------------------------------------------------------------------------
 # Bind address: always 0.0.0.0 so the proxy/load-balancer can reach us.
