@@ -1,33 +1,229 @@
-.error-display {
-  box-sizing: border-box;
-  padding: 20px;
+/**
+ * Cloud Studio - Error Page Styles
+ * Modern error display with graceful handling
+ */
+
+.cs-error-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--cs-bg-primary) 0%, var(--cs-bg-quaternary) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Background decoration */
+.cs-error-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.cs-error-shape {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.05;
+}
+
+.cs-error-shape-1 {
+  width: 500px;
+  height: 500px;
+  background: var(--cs-color-danger);
+  top: -200px;
+  right: -200px;
+}
+
+.cs-error-shape-2 {
+  width: 300px;
+  height: 300px;
+  background: var(--cs-color-primary);
+  bottom: -100px;
+  left: -100px;
+}
+
+/* Error card */
+.cs-error-display {
+  position: relative;
+  z-index: 10;
+  background: var(--cs-bg-glass);
+  backdrop-filter: var(--cs-backdrop-blur-lg);
+  border: 1px solid var(--cs-border-default);
+  border-radius: var(--cs-radius-2xl);
+  padding: var(--cs-space-12);
+  max-width: 600px;
+  width: 100%;
+  margin: var(--cs-space-6);
+  box-shadow: 0 25px 50px -12px rgba(239, 68, 68, 0.2);
   text-align: center;
+  animation: cs-scale-in 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.error-display > .header {
-  font-size: 6rem;
-  margin: 0;
+@media (max-width: 640px) {
+  .cs-error-display {
+    padding: var(--cs-space-8);
+    margin: var(--cs-space-4);
+  }
 }
 
-.error-display > .body {
-  color: #444;
-  color: light-dark(#444, #ccc);
-  font-size: 1.2rem;
+/* Error icon */
+.cs-error-icon {
+  width: 80px;
+  height: 80px;
+  background: rgba(239, 68, 68, 0.15);
+  border: 2px solid rgba(239, 68, 68, 0.3);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto var(--cs-space-6);
+  animation: cs-bounce 2s ease infinite;
 }
 
-.error-display > .links {
-  margin-top: 16px;
+.cs-error-icon svg {
+  width: 40px;
+  height: 40px;
+  color: var(--cs-color-danger-light);
 }
 
-.error-display > .links > .link {
-  color: rgb(87, 114, 245);
+/* Error header */
+.cs-error-header {
+  font-size: var(--cs-text-2xl);
+  font-weight: var(--cs-font-weight-bold);
+  color: var(--cs-text-primary);
+  margin: 0 0 var(--cs-space-3) 0;
+  background: linear-gradient(135deg, var(--cs-color-danger-light) 0%, var(--cs-color-danger) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Error body */
+.cs-error-body {
+  font-size: var(--cs-text-base);
+  color: var(--cs-text-secondary);
+  line-height: var(--cs-leading-relaxed);
+  margin: 0 0 var(--cs-space-8) 0;
+}
+
+/* Error code (if present) */
+.cs-error-code {
+  background: var(--cs-bg-tertiary);
+  padding: var(--cs-space-3) var(--cs-space-4);
+  border-radius: var(--cs-radius-lg);
+  font-family: var(--cs-font-mono);
+  font-size: var(--cs-text-sm);
+  color: var(--cs-color-accent-light);
+  margin-bottom: var(--cs-space-6);
+  border-left: 3px solid var(--cs-color-danger);
+  text-align: left;
+  overflow-x: auto;
+}
+
+/* Links */
+.cs-error-links {
+  display: flex;
+  gap: var(--cs-space-4);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.cs-error-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--cs-space-2);
+  padding: var(--cs-space-3) var(--cs-space-6);
+  border-radius: var(--cs-radius-md);
+  font-weight: var(--cs-font-weight-medium);
+  transition: all var(--cs-transition-base);
   text-decoration: none;
 }
 
-.error-display > .links > .link:hover {
-  text-decoration: underline;
+.cs-error-link-primary {
+  background: linear-gradient(135deg, var(--cs-color-primary) 0%, var(--cs-color-primary-dark) 100%);
+  color: white;
+  box-shadow: var(--cs-shadow-md), var(--cs-glow-primary);
 }
 
-.error-display .success {
-  color: green;
+.cs-error-link-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--cs-shadow-lg), var(--cs-glow-primary);
+}
+
+.cs-error-link-secondary {
+  background: var(--cs-bg-tertiary);
+  color: var(--cs-text-primary);
+  border: 1px solid var(--cs-border-default);
+}
+
+.cs-error-link-secondary:hover {
+  background: var(--cs-bg-elevated);
+  border-color: var(--cs-border-hover);
+}
+
+.cs-error-link svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Additional info */
+.cs-error-details {
+  margin-top: var(--cs-space-8);
+  padding-top: var(--cs-space-8);
+  border-top: 1px solid var(--cs-border-default);
+  text-align: left;
+}
+
+.cs-error-details-title {
+  font-size: var(--cs-text-sm);
+  font-weight: var(--cs-font-weight-semibold);
+  color: var(--cs-text-secondary);
+  margin-bottom: var(--cs-space-3);
+}
+
+.cs-error-details-content {
+  background: var(--cs-bg-secondary);
+  padding: var(--cs-space-4);
+  border-radius: var(--cs-radius-lg);
+  font-family: var(--cs-font-mono);
+  font-size: var(--cs-text-xs);
+  color: var(--cs-text-tertiary);
+  overflow-x: auto;
+  line-height: var(--cs-leading-relaxed);
+  border: 1px solid var(--cs-border-default);
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .cs-error-display {
+    padding: var(--cs-space-6);
+  }
+
+  .cs-error-icon {
+    width: 60px;
+    height: 60px;
+  }
+
+  .cs-error-icon svg {
+    width: 30px;
+    height: 30px;
+  }
+
+  .cs-error-header {
+    font-size: var(--cs-text-xl);
+  }
+
+  .cs-error-links {
+    flex-direction: column;
+  }
+
+  .cs-error-link {
+    width: 100%;
+    justify-content: center;
+  }
 }
