@@ -1,0 +1,15 @@
+# Nixpacks configuration for Railway deployment
+# Pins Node 22 explicitly and ensures curl + tar are available
+# for start.sh to download the code-server binary on first boot.
+
+[phases.setup]
+nixPkgs = ["nodejs_22", "curl", "bash", "gnutar"]
+
+[phases.install]
+cmds = ["npm install --ignore-scripts"]
+
+[phases.build]
+cmds = ["./ci/build/build-code-server.sh"]
+
+[start]
+cmd = "bash start.sh"
