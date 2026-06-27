@@ -1,0 +1,418 @@
+/**
+ * Cloud Studio - IDE Workspace Styles
+ * Professional cloud IDE layout inspired by Replit
+ */
+
+/* Main workspace container */
+.cs-workspace {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: var(--cs-width-sidebar-collapsed) 1fr;
+  grid-template-rows: var(--cs-height-topbar) 1fr var(--cs-height-terminal);
+  gap: 0;
+  overflow: hidden;
+  background: var(--cs-bg-primary);
+}
+
+.cs-workspace.cs-sidebar-expanded {
+  grid-template-columns: var(--cs-width-sidebar) 1fr;
+}
+
+/* Activity bar - Left side icons */
+.cs-activity-bar {
+  grid-column: 1;
+  grid-row: 2;
+  background: var(--cs-bg-secondary);
+  border-right: 1px solid var(--cs-border-default);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--cs-space-2);
+  padding: var(--cs-space-4) var(--cs-space-2);
+  overflow-y: auto;
+}
+
+.cs-activity-item {
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--cs-radius-md);
+  color: var(--cs-text-secondary);
+  cursor: pointer;
+  transition: all var(--cs-transition-base);
+  position: relative;
+}
+
+.cs-activity-item:hover {
+  background: var(--cs-bg-tertiary);
+  color: var(--cs-text-primary);
+}
+
+.cs-activity-item.cs-active {
+  color: var(--cs-color-primary);
+  background: var(--cs-bg-tertiary);
+}
+
+.cs-activity-item.cs-active::before {
+  content: "";
+  position: absolute;
+  left: -8px;
+  width: 3px;
+  height: 100%;
+  background: var(--cs-color-primary);
+  border-radius: var(--cs-radius-full);
+}
+
+/* Sidebar */
+.cs-sidebar {
+  grid-column: 1;
+  grid-row: 2;
+  background: var(--cs-bg-secondary);
+  border-right: 1px solid var(--cs-border-default);
+  display: flex;
+  flex-direction: column;
+  width: var(--cs-width-sidebar);
+  overflow: hidden;
+  transition: all var(--cs-transition-slow);
+  position: relative;
+  z-index: 50;
+}
+
+.cs-sidebar.cs-collapsed {
+  width: var(--cs-width-sidebar-collapsed);
+}
+
+.cs-sidebar.cs-collapsed .cs-sidebar-content {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Sidebar header */
+.cs-sidebar-header {
+  padding: var(--cs-space-4);
+  border-bottom: 1px solid var(--cs-border-default);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--cs-space-2);
+}
+
+.cs-sidebar-title {
+  font-size: var(--cs-text-sm);
+  font-weight: var(--cs-font-weight-semibold);
+  color: var(--cs-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  flex: 1;
+}
+
+.cs-sidebar-toggle {
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--cs-radius-md);
+  color: var(--cs-text-secondary);
+  cursor: pointer;
+  transition: all var(--cs-transition-base);
+}
+
+.cs-sidebar-toggle:hover {
+  background: var(--cs-bg-tertiary);
+  color: var(--cs-text-primary);
+}
+
+/* Sidebar content */
+.cs-sidebar-content {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  transition: opacity var(--cs-transition-base);
+}
+
+/* Top navigation bar */
+.cs-topbar {
+  grid-column: 2;
+  grid-row: 1;
+  background: var(--cs-bg-secondary);
+  border-bottom: 1px solid var(--cs-border-default);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--cs-space-4);
+  padding: 0 var(--cs-space-6);
+  z-index: 40;
+}
+
+.cs-topbar-left {
+  display: flex;
+  align-items: center;
+  gap: var(--cs-space-4);
+  flex: 1;
+  min-width: 0;
+}
+
+.cs-topbar-title {
+  font-size: var(--cs-text-base);
+  font-weight: var(--cs-font-weight-semibold);
+  color: var(--cs-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cs-topbar-center {
+  display: flex;
+  align-items: center;
+  gap: var(--cs-space-4);
+}
+
+.cs-topbar-right {
+  display: flex;
+  align-items: center;
+  gap: var(--cs-space-3);
+}
+
+/* Main content area */
+.cs-main {
+  grid-column: 2;
+  grid-row: 2;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--cs-bg-primary);
+}
+
+/* Editor tabs */
+.cs-tabs-bar {
+  background: var(--cs-bg-secondary);
+  border-bottom: 1px solid var(--cs-border-default);
+  display: flex;
+  gap: var(--cs-space-1);
+  padding: 0 var(--cs-space-2);
+  overflow-x: auto;
+  overflow-y: hidden;
+  height: 2.5rem;
+  align-items: center;
+}
+
+.cs-tab-item {
+  display: flex;
+  align-items: center;
+  gap: var(--cs-space-2);
+  padding: var(--cs-space-2) var(--cs-space-3);
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--cs-text-secondary);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all var(--cs-transition-base);
+  position: relative;
+  font-size: var(--cs-text-sm);
+}
+
+.cs-tab-item:hover {
+  color: var(--cs-text-primary);
+  background: var(--cs-bg-tertiary);
+}
+
+.cs-tab-item.cs-active {
+  color: var(--cs-color-primary);
+  border-bottom-color: var(--cs-color-primary);
+  background: var(--cs-bg-tertiary);
+}
+
+.cs-tab-close {
+  width: 1.5rem;
+  height: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--cs-radius-sm);
+  opacity: 0.7;
+  transition: all var(--cs-transition-base);
+}
+
+.cs-tab-close:hover {
+  opacity: 1;
+  background: var(--cs-border-hover);
+}
+
+/* Editor container */
+.cs-editor-container {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+}
+
+.cs-editor {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--cs-bg-primary);
+}
+
+.cs-editor-pane {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-right: 1px solid var(--cs-border-default);
+}
+
+.cs-editor-pane:last-child {
+  border-right: none;
+}
+
+.cs-editor-empty {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: var(--cs-space-6);
+  color: var(--cs-text-tertiary);
+  padding: var(--cs-space-12);
+}
+
+.cs-editor-empty-icon {
+  width: 80px;
+  height: 80px;
+  opacity: 0.3;
+  color: var(--cs-text-secondary);
+}
+
+.cs-editor-empty-text {
+  font-size: var(--cs-text-lg);
+  color: var(--cs-text-secondary);
+}
+
+/* Terminal */
+.cs-terminal-container {
+  grid-column: 2;
+  grid-row: 3;
+  background: var(--cs-bg-secondary);
+  border-top: 1px solid var(--cs-border-default);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: all var(--cs-transition-base);
+}
+
+.cs-terminal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--cs-space-3);
+  padding: var(--cs-space-3) var(--cs-space-4);
+  border-bottom: 1px solid var(--cs-border-default);
+  min-height: 2.5rem;
+}
+
+.cs-terminal-title {
+  font-size: var(--cs-text-sm);
+  font-weight: var(--cs-font-weight-medium);
+  color: var(--cs-text-secondary);
+}
+
+.cs-terminal-controls {
+  display: flex;
+  gap: var(--cs-space-2);
+}
+
+.cs-terminal-control {
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--cs-radius-sm);
+  color: var(--cs-text-secondary);
+  cursor: pointer;
+  transition: all var(--cs-transition-base);
+}
+
+.cs-terminal-control:hover {
+  background: var(--cs-bg-tertiary);
+  color: var(--cs-text-primary);
+}
+
+.cs-terminal-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--cs-space-4);
+  font-family: var(--cs-font-mono);
+  font-size: var(--cs-text-sm);
+  line-height: var(--cs-leading-relaxed);
+  color: var(--cs-text-secondary);
+}
+
+/* Terminal hidden state */
+.cs-terminal-hidden .cs-terminal-content {
+  display: none;
+}
+
+.cs-terminal-hidden {
+  height: auto !important;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .cs-workspace {
+    grid-template-columns: var(--cs-width-sidebar-collapsed) 1fr;
+  }
+
+  .cs-sidebar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: var(--cs-width-sidebar);
+    z-index: 100;
+    box-shadow: var(--cs-shadow-lg);
+  }
+
+  .cs-sidebar.cs-collapsed {
+    transform: translateX(calc(-100% + var(--cs-width-sidebar-collapsed)));
+  }
+
+  .cs-topbar {
+    gap: var(--cs-space-2);
+    padding: 0 var(--cs-space-3);
+  }
+
+  .cs-topbar-center {
+    display: none;
+  }
+
+  .cs-terminal-container {
+    height: 6rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .cs-workspace {
+    grid-template-rows: var(--cs-height-topbar) 1fr 8rem;
+  }
+
+  .cs-topbar-title {
+    font-size: var(--cs-text-sm);
+  }
+
+  .cs-topbar-right {
+    gap: var(--cs-space-2);
+  }
+
+  .cs-terminal-container {
+    height: 8rem;
+  }
+}
