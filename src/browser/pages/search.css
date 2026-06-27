@@ -1,0 +1,234 @@
+/**
+ * Cloud Studio - Command Palette & Search Styles
+ * Premium search and command interface
+ */
+
+/* Command palette backdrop */
+.cs-command-palette-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  z-index: 500;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 10vh;
+  animation: cs-fade-in 200ms ease;
+}
+
+/* Command palette container */
+.cs-command-palette {
+  width: 100%;
+  max-width: 600px;
+  background: var(--cs-bg-secondary);
+  border: 1px solid var(--cs-border-default);
+  border-radius: var(--cs-radius-xl);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+  overflow: hidden;
+  animation: cs-scale-in 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Palette input */
+.cs-palette-input-wrapper {
+  padding: var(--cs-space-4);
+  border-bottom: 1px solid var(--cs-border-default);
+  display: flex;
+  align-items: center;
+  gap: var(--cs-space-3);
+}
+
+.cs-palette-input-icon {
+  color: var(--cs-text-tertiary);
+  flex-shrink: 0;
+}
+
+.cs-palette-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--cs-text-primary);
+  font-size: var(--cs-text-base);
+  padding: 0;
+}
+
+.cs-palette-input::placeholder {
+  color: var(--cs-text-tertiary);
+}
+
+.cs-palette-input:focus {
+  outline: none;
+}
+
+/* Results list */
+.cs-palette-results {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.cs-palette-result {
+  padding: var(--cs-space-3) var(--cs-space-4);
+  color: var(--cs-text-primary);
+  cursor: pointer;
+  transition: all var(--cs-transition-fast);
+  display: flex;
+  align-items: center;
+  gap: var(--cs-space-3);
+  font-size: var(--cs-text-sm);
+  border-left: 3px solid transparent;
+}
+
+.cs-palette-result:hover {
+  background: var(--cs-bg-tertiary);
+  border-left-color: var(--cs-color-primary);
+}
+
+.cs-palette-result.cs-selected {
+  background: var(--cs-bg-tertiary);
+  border-left-color: var(--cs-color-accent);
+  color: var(--cs-color-accent);
+}
+
+.cs-palette-result-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--cs-text-secondary);
+}
+
+.cs-palette-result-label {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cs-palette-result-shortcut {
+  font-family: var(--cs-font-mono);
+  font-size: var(--cs-text-xs);
+  color: var(--cs-text-tertiary);
+  flex-shrink: 0;
+}
+
+/* Empty state */
+.cs-palette-empty {
+  padding: var(--cs-space-8) var(--cs-space-4);
+  text-align: center;
+  color: var(--cs-text-tertiary);
+}
+
+/* Search panel */
+.cs-search-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.cs-search-header {
+  padding: var(--cs-space-4);
+  border-bottom: 1px solid var(--cs-border-default);
+}
+
+.cs-search-box {
+  display: flex;
+  gap: var(--cs-space-2);
+}
+
+.cs-search-input-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: var(--cs-space-3);
+  background: var(--cs-bg-tertiary);
+  border: 1px solid var(--cs-border-default);
+  border-radius: var(--cs-radius-md);
+  padding: 0 var(--cs-space-3);
+}
+
+.cs-search-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--cs-text-primary);
+  padding: var(--cs-space-2) 0;
+  font-size: var(--cs-text-sm);
+}
+
+.cs-search-input::placeholder {
+  color: var(--cs-text-tertiary);
+}
+
+/* Search results */
+.cs-search-results {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--cs-space-2) 0;
+}
+
+.cs-search-result-file {
+  padding: var(--cs-space-3) var(--cs-space-4);
+  border-bottom: 1px solid var(--cs-border-subtle);
+}
+
+.cs-search-result-file:last-child {
+  border-bottom: none;
+}
+
+.cs-search-result-path {
+  font-size: var(--cs-text-xs);
+  color: var(--cs-text-tertiary);
+  margin-bottom: var(--cs-space-2);
+  font-family: var(--cs-font-mono);
+}
+
+.cs-search-result-match {
+  padding: var(--cs-space-2) 0;
+  color: var(--cs-text-secondary);
+  cursor: pointer;
+  transition: all var(--cs-transition-fast);
+  display: flex;
+  align-items: center;
+  gap: var(--cs-space-2);
+}
+
+.cs-search-result-match:hover {
+  background: var(--cs-bg-tertiary);
+  color: var(--cs-text-primary);
+}
+
+.cs-search-result-line {
+  font-size: var(--cs-text-xs);
+  color: var(--cs-text-tertiary);
+  min-width: 3rem;
+  text-align: right;
+}
+
+.cs-search-result-text {
+  flex: 1;
+  font-family: var(--cs-font-mono);
+  font-size: var(--cs-text-xs);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cs-search-highlight {
+  background: rgba(59, 130, 246, 0.3);
+  color: var(--cs-color-primary-light);
+  font-weight: var(--cs-font-weight-medium);
+}
+
+/* Search stats */
+.cs-search-stats {
+  padding: var(--cs-space-3) var(--cs-space-4);
+  border-top: 1px solid var(--cs-border-default);
+  font-size: var(--cs-text-xs);
+  color: var(--cs-text-tertiary);
+}
