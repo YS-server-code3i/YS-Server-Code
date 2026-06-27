@@ -2,6 +2,7 @@ import { Router, Request } from "express"
 import { promises as fs } from "fs"
 import { RateLimiter as Limiter } from "limiter"
 import * as path from "path"
+import { field, logger } from "@coder/logger"
 import { rootPath } from "../constants"
 import { authenticated, getCookieOptions, redirect, replaceTemplates } from "../http"
 import i18n from "../i18n"
@@ -103,14 +104,17 @@ router.post<{}, string, { password?: string; base?: string } | undefined, { to?:
     // which is why this logic must come after the successful login logic
     limiter.removeToken()
 
-    console.error(
+    logger.error(
       "Failed login attempt",
-      JSON.stringify({
-        xForwardedFor: req.headers["x-forwarded-for"],
-        remoteAddress: req.connection.remoteAddress,
-        userAgent: req.headers["user-agent"],
-        timestamp: Math.floor(new Date().getTime() / 1000),
-      }),
+      field(
+        "details",
+        JSON.stringify({
+          xForwardedFor: req.headers["x-forwarded-for"],
+          remoteAddress: req.connection.remoteAddress,
+          userAgent: req.headers["user-agent"],
+          timestamp: Math.floor(new Date().getTime() / 1000),
+        }),
+      ),
     )
 
     throw new Error(i18n.t("INCORRECT_PASSWORD") as string)
