@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="dark" />
+  <title>Settings - Cloud Studio</title>
+  <link rel="icon" href="{{CS_STATIC_BASE}}/src/browser/media/favicon.svg" />
+  <link href="{{CS_STATIC_BASE}}/src/browser/pages/design-system.css" rel="stylesheet" />
+  <link href="{{CS_STATIC_BASE}}/src/browser/pages/components.css" rel="stylesheet" />
+  <link href="{{CS_STATIC_BASE}}/src/browser/pages/global.css" rel="stylesheet" />
+  <link href="{{CS_STATIC_BASE}}/src/browser/pages/settings.css" rel="stylesheet" />
+  <meta id="coder-options" data-settings="{{OPTIONS}}" />
+</head>
+<body>
+  <div class="cs-settings">
+    <div class="cs-settings-sidebar">
+      <div class="cs-settings-header">
+        <h2 class="cs-settings-title">Settings</h2>
+      </div>
+      <nav class="cs-settings-nav">
+        <div class="cs-settings-nav-item cs-active" data-section="general">General</div>
+        <div class="cs-settings-nav-item" data-section="appearance">Appearance</div>
+        <div class="cs-settings-nav-item" data-section="editor">Editor</div>
+        <div class="cs-settings-nav-item" data-section="terminal">Terminal</div>
+        <div class="cs-settings-nav-item" data-section="keybindings">Keybindings</div>
+        <div class="cs-settings-nav-item" data-section="extensions">Extensions</div>
+        <div class="cs-settings-nav-item" data-section="about">About</div>
+      </nav>
+    </div>
+    <div class="cs-settings-content">
+      <div class="cs-settings-section" id="general-section">
+        <div class="cs-settings-section-header">
+          <h3 class="cs-settings-section-title">General Settings</h3>
+          <p class="cs-settings-section-description">Configure basic application preferences</p>
+        </div>
+        <div class="cs-settings-group">
+          <div class="cs-settings-item cs-settings-item-inline">
+            <div class="cs-settings-label">
+              <div class="cs-settings-label-title">Auto Save</div>
+              <div class="cs-settings-label-description">Automatically save files</div>
+            </div>
+            <div class="cs-settings-control">
+              <div class="cs-toggle">
+                <input type="checkbox" checked>
+                <span class="cs-toggle-slider"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="cs-settings-section" id="appearance-section" style="display: none;">
+        <div class="cs-settings-section-header">
+          <h3 class="cs-settings-section-title">Appearance</h3>
+          <p class="cs-settings-section-description">Customize the look and feel</p>
+        </div>
+        <div class="cs-settings-group">
+          <div class="cs-settings-item cs-settings-item-inline">
+            <div class="cs-settings-label">
+              <div class="cs-settings-label-title">Dark Mode</div>
+              <div class="cs-settings-label-description">Enable dark theme</div>
+            </div>
+            <div class="cs-settings-control">
+              <div class="cs-toggle">
+                <input type="checkbox" checked>
+                <span class="cs-toggle-slider"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Settings navigation
+    document.querySelectorAll('.cs-settings-nav-item').forEach(item => {
+      item.addEventListener('click', function() {
+        const section = this.dataset.section;
+        document.querySelectorAll('.cs-settings-nav-item').forEach(i => i.classList.remove('cs-active'));
+        document.querySelectorAll('.cs-settings-section').forEach(s => s.style.display = 'none');
+        this.classList.add('cs-active');
+        document.getElementById(section + '-section')?.style.display === 'block';
+      });
+    });
+  </script>
+</body>
+</html>
